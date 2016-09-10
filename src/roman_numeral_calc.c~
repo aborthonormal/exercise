@@ -7,6 +7,14 @@ This file defines library functions that allow the user to add and subtract Roma
 
 */
 
+#include <string.h>
 #include "roman_numeral_calc.h"
+
+//Convert decimal numbers (1-3999) to Roman numerals.  
+const * char decimal_to_roman(int i) {
+
+	return "I";
+
+}
 
 
