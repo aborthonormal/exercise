@@ -117,6 +117,54 @@ int decimal_to_roman(const int decimal, char * numeral) {
 			dtemp -= 100;
 		}
 	}
+	
+	//Check if remaining value is between 90 and 99.
+	if(dtemp >= 90) {
+		
+		//Roman numeral for 90 is "XC".  
+		strcat(buffer,"XC");
+
+		//Subract 90 from dtemp.
+		dtemp -= 90;
+	}
+	
+	//Check if dtemp contains 50.  
+	if(dtemp >= 50) {
+		
+		//Roman numeral for 90 is "L".  
+		strcat(buffer,"L");
+
+		//Subract 50 from dtemp.
+		dtemp -= 50;
+	}
+	
+	//Check if dtemp is between 40 and 49.  
+	if(dtemp >= 40) {
+		
+		//Roman numeral for 40 is "XL".  
+		strcat(buffer,"XL");
+
+		//Subract 40 from dtemp.
+		dtemp -= 40;
+	}
+	
+	//Check for 10's values between 10 and 39 in dtemp.  
+	if(dtemp >= 10) {
+	
+		//Count the 10's in dtemp. Rounds down. 
+		int n = floor(((float)dtemp)/10.0);
+
+		//Add 10's by appending "X" several times.  Maximum of 3. 
+		for(int i=0; i<n; i++) {
+
+			//Append "X" to end of numeral buffer string.
+			strcat(buffer,"X");
+
+			//Subtract 10 from remaining decimal value.  
+			dtemp -= 10;
+		}
+	}
+	
 
 	//Copy contents of buffer to "numeral". 
 	strncpy(numeral, buffer, strlen(buffer)+1);
