@@ -139,6 +139,10 @@ START_TEST(convert_roman_to_decimal_test) {
 	roman_to_decimal("I", &decimal);
 	ck_assert_int_eq(decimal, 1);
 	
+	//IV -> 4
+	roman_to_decimal("IV", &decimal);
+	ck_assert_int_eq(decimal, 4);
+	
 }
 END_TEST
 

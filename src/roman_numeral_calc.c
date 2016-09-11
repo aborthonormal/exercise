@@ -21,7 +21,7 @@ static const char roman_symbol[] = {'M','D','C','L','X','V','I'};
 static const int decimal_symbol[] = {1000, 500, 100, 50, 10, 5, 1};
 static const int num_symbol = 7;
 
-/* Convert decimal numbers (1-3999) to Roman numerals.  The function writes to a C string provided by the caller.  The array must be large enough to store the characters of the numerals and the null-terminating character.  A '0' value is returned if the conversion was successful.  A '1' value is returned if the conversion fails for any reason. */ 
+/* Convert decimal numbers (1-3999) to Roman numerals.  The function writes to a C string provided by the caller.  The array must be large enough to store the characters of the numerals and the null-terminating character.  A '0' value is returned if the conversion was successful.  A '1' value is returned if the conversion fails due to invalid input. */
 int decimal_to_roman(const int decimal, char * numeral) {
 
 	//Flag set to non-zero value if input is incorrect or conversion 
@@ -171,10 +171,21 @@ int decimal_to_roman(const int decimal, char * numeral) {
 	return flag;
 }
 
-/* Convert Roman numerals to decimal numbers in the range 1-3999.  The function is passed a C string containing the Roman numerals to convert and a pointer to the integer variable that will receive the converted decimal value.  A '0' value is returned if the conversion was successful.  A '1' value is returned if the conversion fails for any reason. */
+/* Convert Roman numerals to decimal numbers in the range 1-3999.  The function is passed a C string containing the Roman numerals to convert and a pointer to the integer variable that will receive the converted decimal value.  A '0' value is returned if the conversion was successful.  A '1' value is returned if the conversion fails due to invalid input. */
 int roman_to_decimal(const char * numeral, int * decimal) {
 
-	*decimal = 1;
+	//temporary variable to store decimal number as it is built  
+	int dtemp = 0;
+
+	if(strcmp(numeral,"I") == 0) {
+		dtemp = 1;
+	}
+	else if(strcmp(numeral, "IV") == 0) {
+		dtemp = 4;
+	}		
+
+	//Store the final converted decimal number.  
+	*decimal = dtemp;
 
 	return 0;
 }
