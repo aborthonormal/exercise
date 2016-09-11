@@ -47,10 +47,22 @@ START_TEST(convert_decimal_to_roman_test) {
 	//1 -> I
 	decimal_to_roman(1, numeral);
 	ck_assert_str_eq(numeral, "I");
+	
+	//3 -> III
+	decimal_to_roman(3, numeral);
+	ck_assert_str_eq(numeral, "III");
 
 	//4 -> IV
 	decimal_to_roman(4, numeral);
 	ck_assert_str_eq(numeral, "IV");
+	
+	//5 -> V
+	decimal_to_roman(5, numeral);
+	ck_assert_str_eq(numeral, "V");
+	
+	//9 -> IX
+	decimal_to_roman(9, numeral);
+	ck_assert_str_eq(numeral, "IX");
 	
 	//10 -> X
 	decimal_to_roman(10, numeral);
@@ -72,7 +84,6 @@ START_TEST(convert_decimal_to_roman_test) {
 	decimal_to_roman(80, numeral);
 	ck_assert_str_eq(numeral, "LXXX");
 	
-
 	//100 -> C
 	decimal_to_roman(100, numeral);
 	ck_assert_str_eq(numeral, "C");

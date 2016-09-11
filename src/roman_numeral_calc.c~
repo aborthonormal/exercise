@@ -131,7 +131,7 @@ int decimal_to_roman(const int decimal, char * numeral) {
 	//Check if dtemp contains 50.  
 	if(dtemp >= 50) {
 		
-		//Roman numeral for 90 is "L".  
+		//Roman numeral for 50 is "L".  
 		strcat(buffer,"L");
 
 		//Subract 50 from dtemp.
@@ -165,9 +165,62 @@ int decimal_to_roman(const int decimal, char * numeral) {
 		}
 	}
 	
+	//Check if remaining value is between 1 and 9.
+	if(dtemp >= 9) {
+		
+		//Roman numeral for 9 is "IX".  
+		strcat(buffer,"IX");
+
+		//Subract 90 from dtemp.
+		dtemp -= 9;
+	}
+	
+	//Check if dtemp contains 5.  
+	if(dtemp >= 5) {
+		
+		//Roman numeral for 5 is "V".  
+		strcat(buffer,"V");
+
+		//Subract 50 from dtemp.
+		dtemp -= 5;
+	}
+	
+	//Check if dtemp is 4.  
+	if(dtemp >= 4) {
+		
+		//Roman numeral for 4 is "IV".  
+		strcat(buffer,"IV");
+
+		//Subract 4 from dtemp.
+		dtemp -= 4;
+	}
+	
+	//Check for 1's values between 1 and 3 in dtemp.  
+	if(dtemp >= 1) {
+	
+		//Count the 1's in dtemp. Rounds down. 
+		int n = floor(((float)dtemp)/1.0);
+
+		//Add 1's by appending "I" several times.  Maximum of 3. 
+		for(int i=0; i<n; i++) {
+
+			//Append "I" to end of numeral buffer string.
+			strcat(buffer,"I");
+
+			//Subtract 10 from remaining decimal value.  
+			dtemp -= 1;
+		}
+	}
 
 	//Copy contents of buffer to "numeral". 
 	strncpy(numeral, buffer, strlen(buffer)+1);
+
+	//dtemp should equal zero now, with all value extracted and 	
+	//converted to Roman numerals.  If not, something went wrong.  
+	if(dtemp != 0) {
+		flag = 1;
+		return flag;
+	}
 
 	//Free buffer memory
 	free(buffer);
