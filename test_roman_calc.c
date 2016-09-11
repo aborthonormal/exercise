@@ -143,6 +143,13 @@ START_TEST(convert_roman_to_decimal_test) {
 	roman_to_decimal("IV", &decimal);
 	ck_assert_int_eq(decimal, 4);
 	
+	//M -> 1000
+	roman_to_decimal("M", &decimal);
+	ck_assert_int_eq(decimal, 1000);
+	
+	//MMM -> 3000
+	roman_to_decimal("MMM", &decimal);
+	ck_assert_int_eq(decimal, 3000);
 }
 END_TEST
 

@@ -176,8 +176,39 @@ int roman_to_decimal(const char * numeral, int * decimal) {
 
 	//temporary variable to store decimal number as it is built  
 	int dtemp = 0;
-
 	
+	//Copy the original numeral to another c string that can be 
+	//manipulated as need.  
+	char * ntemp = (char*)malloc(sizeof(char) * (strlen(numeral)+1));
+	memcpy(ntemp, numeral, strlen(numeral)+1);
+
+	if(strcmp(ntemp,"I") == 0) {
+		dtemp = 1;
+	}
+	else if(strcmp(ntemp, "IV") == 0) {
+		dtemp = 4;
+	}
+	
+	//Check for M's in numeral string, representing the 1000s place. 
+	if(strchr(ntemp,'M' != (void*)NULL)) {
+	
+		//If the numeral string is preceeded by M's, these represent 
+		//values of 1000.  
+		while(strchr(ntemp,'M') == ntemp) {
+		
+			//Add 1000 to decimal value.  
+			dtemp += 1000;
+			
+			//Shift the characters of the string so the first is 
+			//dropped off.  The null terminating character is copied 
+			//over as well, so the string's length is correctly 
+			//shortened.  
+			memcpy(ntemp, ntemp+1, strlen(ntemp));
+		}	
+	}
+
+	//Free the temporary Roman numeral string.
+	free(ntemp);
 
 	//Store the final converted decimal number.  
 	*decimal = dtemp;
