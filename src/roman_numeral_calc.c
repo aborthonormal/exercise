@@ -188,23 +188,43 @@ int roman_to_decimal(const char * numeral, int * decimal) {
 	else if(strcmp(ntemp, "IV") == 0) {
 		dtemp = 4;
 	}
+	 
+	//If the numeral string is preceeded by M's, these represent 
+	//values of 1000.  
+	while(strchr(ntemp,'M') == ntemp) {
 	
-	//Check for M's in numeral string, representing the 1000s place. 
-	if(strchr(ntemp,'M')) {
-	
-		//If the numeral string is preceeded by M's, these represent 
-		//values of 1000.  
-		while(strchr(ntemp,'M') == ntemp) {
+		//Add 1000 to decimal value.  
+		dtemp += 1000;
 		
-			//Add 1000 to decimal value.  
-			dtemp += 1000;
+		//Shift the characters of the string so the first is 
+		//dropped off.  The null terminating character is copied 
+		//over as well, so the string's length is correctly 
+		//shortened.  
+		memmove(ntemp, ntemp+1, strlen(ntemp));
+	}
+	
+	//Check for "CM", which represents 900.  	
+	if(strstr(ntemp,"CM")) {
+	
+		//Check if "CM" is at beginning of string.  
+		if(strstr(ntemp,"CM") == ntemp) {
+		
+			//Add 900 to decimal value.
+			dtemp += 900;
+		
+			//Remove beginning of string.  
+			memmove(ntemp, ntemp+2, strlen(ntemp));
 			
-			//Shift the characters of the string so the first is 
-			//dropped off.  The null terminating character is copied 
-			//over as well, so the string's length is correctly 
-			//shortened.  
-			memcpy(ntemp, ntemp+1, strlen(ntemp));
-		}	
+			//Ensure string ends in null-terminating character, 
+			//filling NULL from after the length of the new string to 
+			//the end of the allocated memory for the string.  
+			memset(ntemp+(strlen(ntemp)-1), 0, strlen(numeral)-strlen(ntemp)+1);
+		}
+		else {
+			//Incorrectly formated Roman numeral, return. 
+			free(ntemp);
+			return 1;
+		}
 	}
 
 	//Free the temporary Roman numeral string.

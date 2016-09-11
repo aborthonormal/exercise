@@ -143,13 +143,35 @@ START_TEST(convert_roman_to_decimal_test) {
 	roman_to_decimal("IV", &decimal);
 	ck_assert_int_eq(decimal, 4);
 	
+	//CM -> 900
+	roman_to_decimal("CM", &decimal);
+	ck_assert_int_eq(decimal, 900);
+	
 	//M -> 1000
 	roman_to_decimal("M", &decimal);
 	ck_assert_int_eq(decimal, 1000);
 	
+	//MCM -> 1900
+	int flag = roman_to_decimal("MCM", &decimal);
+	ck_assert_int_eq(flag,0);
+	
+	ck_assert_int_eq(decimal, 1900);
+	
+	
+	
+	//MMCM -> 2900
+	flag = roman_to_decimal("MMCM", &decimal);
+	ck_assert_int_eq(flag,0);
+	ck_assert_int_eq(decimal, 2900);
+	
 	//MMM -> 3000
 	roman_to_decimal("MMM", &decimal);
 	ck_assert_int_eq(decimal, 3000);
+	
+	//MMMCM -> 3900
+	roman_to_decimal("MMMCM", &decimal);
+	ck_assert_int_eq(decimal, 3900);
+	
 }
 END_TEST
 
