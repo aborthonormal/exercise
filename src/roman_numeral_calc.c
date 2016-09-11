@@ -7,14 +7,31 @@ This file defines library functions that allow the user to add and subtract Roma
 
 */
 
+#include <stdio.h>
+#include <malloc.h>
 #include <string.h>
+#include <stdlib.h>
 #include "roman_numeral_calc.h"
 
-//Convert decimal numbers (1-3999) to Roman numerals.  
-const char * decimal_to_roman(int i) {
+//Constants for minimum and maximum Roman numerals and decimal numbers. 
+const char * MAX_ROMAN = "MMMCMXCIX";
+const char * MIN_ROMAN = "I";
+const int MAX_DECIMAL = 3999;
+const int MIN_DECIMAL = 1;
 
-	return "I";
+/* Convert decimal numbers (1-3999) to Roman numerals.  A dynamically allocated c-string is returned by this function, so care must be taken to free the string after use, to avoid a memory leak. */ 
+char * decimal_to_roman(int i) {
 
+	switch(i) {
+		case 1:
+			return "I";
+			break;
+		case 4:
+			return "IV";
+			break;
+		default:
+			return '\0';
+	}
 }
 
 

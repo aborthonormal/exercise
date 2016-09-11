@@ -3,11 +3,14 @@ test_roman_calc.c
 
 Andrew Howard - 2016
 
-Program used to test functions of the Roman numeral calculator library, libromancalc.  This program uses the Check library, libcheck, to run a series of tests on the functions for conversion, addition, and subtraction.  
+Program used to test functions of the Roman numeral calculator library, libromancalc.  
+This program uses the Check library, libcheck, to run a series of tests on the 
+functions for conversion, addition, and subtraction.  
 
 */
 
 #include <stdio.h>
+#include <malloc.h>
 #include <stdlib.h>
 #include <string.h>
 #include <check.h>
@@ -16,12 +19,18 @@ Program used to test functions of the Roman numeral calculator library, libroman
 //Test for the decimal to Roman numeral conversion function.  
 START_TEST(convert_decimal_to_roman_test) {
 
-	//Check if various conversions from decimal to Roman numerals work.  
-	ck_assert_str_eq(decimal_to_roman(1),"I");
+	//Check if various conversions from decimal to Roman numerals work.
+
+	//1 -> I
+	ck_assert_str_eq(decimal_to_roman(1), "I");
+
+	//4 -> IV
+	ck_assert_str_eq(decimal_to_roman(4), "IV");
 }
 END_TEST
 
-/* This function creates the test Suite structure, with the test cases added to it.  The test suite is then run within the main function.  */
+/* This function creates the test Suite structure, with the test cases added to it.  
+The test suite is then run within the main function.  */
 static Suite *create_test_suite(void) {
 
 	//Suite struct
