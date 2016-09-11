@@ -11,6 +11,8 @@ This file defines library functions that allow the user to add and subtract Roma
 #include <malloc.h>
 #include <string.h>
 #include <stdlib.h>
+#include <math.h>
+
 #include "roman_numeral_calc.h"
 
 /* Convert decimal numbers (1-3999) to Roman numerals.  The function writes to a C string character array provided by the caller.  The array must be large enough to store the characters of the numerals and the null-terminating character.  A '0' value is returned if the conversion was successful.  A '1' value is returned if the conversion fails for any reason. */ 
@@ -45,6 +47,26 @@ int decimal_to_roman(const int decimal, char * numeral) {
 		case 4:
 			strcpy(buffer,"IV");
 			break;
+	}
+
+	//Temporary integer to store value of remaining decimal number 
+	//as Roman numerals are added to the string.  
+	int dtemp = decimal;
+
+	if(dtemp >= 900) {
+
+		//Count the 1000's in the decimal number.  Rounds down. 
+		int n = floor((float)dtemp/1000.0);
+
+		//Add 1000's by listing "M" several times.  Maximum of 3. 
+		for(int i=0; i<n; i++) {
+
+			//Append "M" to end of numeral buffer string.
+			buffer[strlen(buffer)] = 'M';
+
+			//Subtract 1000 from decimal value.  
+			dtemp -= 1000;
+		}
 	}
 
 	//Copy contents of buffer to "numeral". 

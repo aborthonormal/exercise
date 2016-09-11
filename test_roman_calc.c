@@ -24,15 +24,6 @@ START_TEST(convert_decimal_to_roman_test) {
 	char * numeral = (char*)malloc(sizeof(char) * (strlen(MAX_ROMAN)+1));
 	memset(numeral, 0, strlen(MAX_ROMAN)+1);
 
-	//Check if various conversions from decimal to Roman numerals work.
-
-	//1 -> I
-	decimal_to_roman(1, numeral);
-	ck_assert_str_eq(numeral, "I");
-
-	//4 -> IV
-	decimal_to_roman(4, numeral);
-	ck_assert_str_eq(numeral, "IV");
 
 	//Check that the conversion function returns the correct flag when proper and improper input is provided.  
 	
@@ -49,6 +40,26 @@ START_TEST(convert_decimal_to_roman_test) {
 
 	flag = decimal_to_roman(1, NULL);
 	ck_assert_int_eq(flag, 1);
+
+
+	//Check if various conversions from decimal to Roman numerals work.
+
+	//1 -> I
+	decimal_to_roman(1, numeral);
+	ck_assert_str_eq(numeral, "I");
+
+	//4 -> IV
+	decimal_to_roman(4, numeral);
+	ck_assert_str_eq(numeral, "IV");
+
+	//1000 -> M
+	decimal_to_roman(1000, numeral);
+	ck_assert_str_eq(numeral, "M");
+
+	//3000 -> MMM
+	decimal_to_roman(3000, numeral);
+	ck_assert_str_eq(numeral, "MMM");
+
 
 	//Free memory assigned to "numeral"
 	free(numeral);

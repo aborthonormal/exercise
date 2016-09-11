@@ -9,7 +9,7 @@ test_roman_calc: test_roman_calc.o
 	gcc -o test_roman_calc test_roman_calc.o -Lutil -lromancalc -lcheck -lpthread -lm -lrt
 
 test_roman_calc.o: test_roman_calc.c
-	gcc -g3 -c test_roman_calc.c -Iinclude/
+	gcc -c -std=c99 test_roman_calc.c -Iinclude/
 
 clean:
 	cd util; make clean
