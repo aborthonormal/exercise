@@ -19,13 +19,23 @@ functions for conversion, addition, and subtraction.
 //Test for the decimal to Roman numeral conversion function.  
 START_TEST(convert_decimal_to_roman_test) {
 
+	//Allocate the C string "numeral" to store the results of the 
+	//conversion function.  
+	char * numeral = (char*)malloc(sizeof(char) * (strlen(MAX_ROMAN)+1));
+	memset(numeral, 0, strlen(MAX_ROMAN)+1);
+
 	//Check if various conversions from decimal to Roman numerals work.
 
 	//1 -> I
-	ck_assert_str_eq(decimal_to_roman(1), "I");
+	decimal_to_roman(1, numeral);
+	ck_assert_str_eq(numeral, "I");
 
 	//4 -> IV
-	ck_assert_str_eq(decimal_to_roman(4), "IV");
+	decimal_to_roman(4, numeral);
+	ck_assert_str_eq(numeral, "IV");
+
+	//Free memory assigned to "numeral"
+	free(numeral);
 }
 END_TEST
 
