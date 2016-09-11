@@ -14,13 +14,13 @@ This file defines library functions that allow the user to add and subtract Roma
 #include "roman_numeral_calc.h"
 
 /* Convert decimal numbers (1-3999) to Roman numerals.  The function writes to a C string character array provided by the caller.  The array must be large enough to store the characters of the numerals and the null-terminating character.  A '0' value is returned if the conversion was successful.  A '1' value is returned if the conversion fails for any reason. */ 
-int decimal_to_roman(const int i, char * numeral) {
+int decimal_to_roman(const int decimal, char * numeral) {
 
 	//Flag set to non-zero value if input is incorrect or conversion fails.  
 	int flag = 0;
 
 	//First check if number is within the accepted range. 
-	if(i < MIN_DECIMAL || i > MAX_DECIMAL) {
+	if(decimal < MIN_DECIMAL || decimal > MAX_DECIMAL) {
 		flag = 1;
 		return flag;
 	}
@@ -38,16 +38,13 @@ int decimal_to_roman(const int i, char * numeral) {
 	char * buffer = (char*)malloc(sizeof(char) + (strlen(MAX_ROMAN)+1));
 	memset(buffer, 0, (strlen(MAX_ROMAN)+1));
 
-	switch(i) {
+	switch(decimal) {
 		case 1:
 			strcpy(buffer,"I");
 			break;
 		case 4:
 			strcpy(buffer,"IV");
 			break;
-		default:
-			//Decimal number is invalid.  
-			flag = 1;
 	}
 
 	//Copy contents of buffer to "numeral". 
