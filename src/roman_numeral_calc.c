@@ -63,7 +63,7 @@ int decimal_to_roman(const int decimal, char * numeral) {
 		for(int i=0; i<n; i++) {
 
 			//Append "M" to end of numeral buffer string.
-			buffer[strlen(buffer)] = 'M';
+			strcat(buffer,"M");
 
 			//Subtract 1000 from decimal value.  
 			dtemp -= 1000;
@@ -75,8 +75,7 @@ int decimal_to_roman(const int decimal, char * numeral) {
 	if(dtemp >= 900) {
 
 		//Append "CM" to end of numeral buffer string.
-		buffer[strlen(buffer)] = 'C';
-		buffer[strlen(buffer)] = 'M';
+		strcat(buffer, "CM");
 
 		//Subtract 900 from decimal value.  
 		dtemp -= 900;
