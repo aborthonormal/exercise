@@ -57,9 +57,9 @@ int decimal_to_roman(const int decimal, char * numeral) {
 	if(dtemp >= 1000) {
 
 		//Count the 1000's in the decimal number.  Rounds down. 
-		int n = floor((float)dtemp/1000.0);
+		int n = floor(((float)dtemp)/1000.0);
 
-		//Add 1000's by listing "M" several times.  Maximum of 3. 
+		//Add 1000's by appending "M" several times.  Maximum of 3. 
 		for(int i=0; i<n; i++) {
 
 			//Append "M" to end of numeral buffer string.
@@ -70,7 +70,7 @@ int decimal_to_roman(const int decimal, char * numeral) {
 		}
 	}
 	
-	//Case when decimal is between 1000 and 900, so Roman 
+	//Remainder of dtemp is between 900 and 999, so Roman 
 	//numeral is "CM".
 	if(dtemp >= 900) {
 
@@ -79,6 +79,43 @@ int decimal_to_roman(const int decimal, char * numeral) {
 
 		//Subtract 900 from decimal value.  
 		dtemp -= 900;
+	}
+	
+	//Check if dtemp contains 500.   
+	if(dtemp >= 500) {
+	
+		//Append "D" to end of numeral buffer string.
+		strcat(buffer, "D");
+
+		//Subtract 500 from dtemp.  
+		dtemp -= 500;
+	}
+	
+	//Check if dtemp is between 400 and 499.  
+	if(dtemp >= 400) {
+		
+		//Roman numeral for 400 is "CD".  
+		strcat(buffer,"CD");
+
+		//Subract 400 from dtemp.
+		dtemp -= 400;
+	}
+	
+	//Check for 100's values between 100 and 399 in dtemp.  
+	if(dtemp >= 100) {
+	
+		//Count the 100's in dtemp. Rounds down. 
+		int n = floor(((float)dtemp)/100.0);
+
+		//Add 100's by appending "C" several times.  Maximum of 3. 
+		for(int i=0; i<n; i++) {
+
+			//Append "C" to end of numeral buffer string.
+			strcat(buffer,"C");
+
+			//Subtract 100 from remaining decimal value.  
+			dtemp -= 100;
+		}
 	}
 
 	//Copy contents of buffer to "numeral". 

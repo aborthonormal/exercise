@@ -52,6 +52,26 @@ START_TEST(convert_decimal_to_roman_test) {
 	decimal_to_roman(4, numeral);
 	ck_assert_str_eq(numeral, "IV");
 
+	//100 -> C
+	decimal_to_roman(100, numeral);
+	ck_assert_str_eq(numeral, "C");
+	
+	//300 -> CCC
+	decimal_to_roman(300, numeral);
+	ck_assert_str_eq(numeral, "CCC");
+	
+	//400 -> CD
+	decimal_to_roman(400, numeral);
+	ck_assert_str_eq(numeral, "CD");
+	
+	//500 -> D
+	decimal_to_roman(500, numeral);
+	ck_assert_str_eq(numeral, "D");
+	
+	//800 -> DCCC
+	decimal_to_roman(800, numeral);
+	ck_assert_str_eq(numeral, "DCCC");
+
 	//1000 -> M
 	decimal_to_roman(1000, numeral);
 	ck_assert_str_eq(numeral, "M");
