@@ -25,7 +25,7 @@ int decimal_to_roman(const int i, char * numeral) {
 		return flag;
 	}
 
-	//Check to see if the C string is not null
+	//Check for a null pointer.  
 	if(numeral == NULL) {
 		flag = 1;
 		return flag;
@@ -33,6 +33,10 @@ int decimal_to_roman(const int i, char * numeral) {
 
 	//Ensure the string is clean before writing over it.  
 	memset(numeral, 0, strlen(numeral));
+
+	//Generate buffer string used when generating Roman numerals.  
+	char * buffer = (char*)malloc(sizeof(char) + (strlen(MAX_ROMAN)+1));
+	memset(buffer, 0, (strlen(MAX_ROMAN)+1));
 
 	switch(i) {
 		case 1:
@@ -45,6 +49,12 @@ int decimal_to_roman(const int i, char * numeral) {
 			//Decimal number is invalid.  
 			flag = 1;
 	}
+
+	//Copy contents of buffer to "numeral". 
+	strncpy(numeral, buffer, strlen(buffer)+1);
+
+	//Free buffer memory
+	free(buffer);
 
 	return flag;
 }

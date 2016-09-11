@@ -34,17 +34,27 @@ int decimal_to_roman(const int i, char * numeral) {
 	//Ensure the string is clean before writing over it.  
 	memset(numeral, 0, strlen(numeral));
 
+	//Generate buffer string used when generating Roman numerals.  
+	char * buffer = (char*)malloc(sizeof(char) + (strlen(MAX_ROMAN)+1));
+	memset(buffer, 0, (strlen(MAX_ROMAN)+1));
+
 	switch(i) {
 		case 1:
-			strcpy(numeral,"I");
+			strcpy(buffer,"I");
 			break;
 		case 4:
-			strcpy(numeral,"IV");
+			strcpy(buffer,"IV");
 			break;
 		default:
 			//Decimal number is invalid.  
 			flag = 1;
 	}
+
+	//Copy contents of buffer to "numeral". 
+	strncpy(numeral, buffer, strlen(buffer)+1);
+
+	//Free buffer memory
+	free(buffer);
 
 	return flag;
 }
