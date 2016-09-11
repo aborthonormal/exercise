@@ -13,8 +13,11 @@ This file defines library functions that allow the user to add and subtract Roma
 #include <stdlib.h>
 #include "roman_numeral_calc.h"
 
-/* Convert decimal numbers (1-3999) to Roman numerals.  The function writes to a C string character array provided by the caller.  The array must be large enough to store the characters of the numerals and the null-terminating character.   */ 
-void decimal_to_roman(const int i, char * numeral) {
+/* Convert decimal numbers (1-3999) to Roman numerals.  The function writes to a C string character array provided by the caller.  The array must be large enough to store the characters of the numerals and the null-terminating character.  A '0' value is returned if the conversion was successful.  A '1' value is returned if the conversion fails for any reason. */ 
+int decimal_to_roman(const int i, char * numeral) {
+
+	//Flag set to non-zero value if input is incorrect or conversion fails.  
+	int flag = 0;
 
 	//Ensure the string is clean before writing over it.  
 	memset(numeral, 0, strlen(numeral));
@@ -26,7 +29,12 @@ void decimal_to_roman(const int i, char * numeral) {
 		case 4:
 			strcpy(numeral,"IV");
 			break;
+		default:
+			//Decimal number is invalid.  
+			flag = 1;
 	}
+
+	return flag;
 }
 
 

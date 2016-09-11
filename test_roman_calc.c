@@ -34,6 +34,20 @@ START_TEST(convert_decimal_to_roman_test) {
 	decimal_to_roman(4, numeral);
 	ck_assert_str_eq(numeral, "IV");
 
+	//Check that the conversion function returns the correct flag when proper and improper input is provided.  
+	
+	//correct input
+	int flag = decimal_to_roman(1, numeral);
+	ck_assert_int_eq(flag, 0);
+
+	//incorrect inputs
+	flag = decimal_to_roman(0, numeral);
+	ck_assert_int_eq(flag, 1);
+
+	flag = decimal_to_roman(4000, numeral);
+	ck_assert_int_eq(flag, 1);
+
+
 	//Free memory assigned to "numeral"
 	free(numeral);
 }

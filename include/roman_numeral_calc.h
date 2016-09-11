@@ -14,7 +14,7 @@ Header file for the Roman numeral calculator library, libromancalc.
 #define MAX_DECIMAL 3999
 #define MIN_DECIMAL 1
 
-/* Convert decimal numbers (1-3999) to Roman numerals.  The function writes to a C string character array provided by the caller.  The array must be large enough to store the characters of the numerals and the null-terminating character.   */ 
-void decimal_to_roman(const int i, char * numeral);
+/* Convert decimal numbers (1-3999) to Roman numerals.  The function writes to a C string character array provided by the caller.  The array must be large enough to store the characters of the numerals and the null-terminating character.  A '0' value is returned if the conversion was successful.  A '1' value is returned if the conversion fails for any reason. */ 
+int decimal_to_roman(const int i, char * numeral);
 
 #endif
