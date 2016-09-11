@@ -60,6 +60,14 @@ START_TEST(convert_decimal_to_roman_test) {
 	decimal_to_roman(3000, numeral);
 	ck_assert_str_eq(numeral, "MMM");
 
+	//900 -> CM
+	decimal_to_roman(900, numeral);
+	ck_assert_str_eq(numeral, "CM");
+
+	//2900 -> MMCM
+	decimal_to_roman(2900, numeral);
+	ck_assert_str_eq(numeral, "MMCM");
+
 
 	//Free memory assigned to "numeral"
 	free(numeral);
