@@ -126,6 +126,22 @@ START_TEST(convert_decimal_to_roman_test) {
 }
 END_TEST
 
+//Test for the Roman numeral to decimal conversion function.  
+START_TEST(convert_roman_to_decimal_test) {
+
+	//integer to store the returned converted number
+	int decimal = 0;
+	
+	//Check if various conversions from Roman numerals to decimal 
+	//numbers work.
+	
+	//I -> 1
+	roman_to_decimal("I", &decimal);
+	ck_assert_int_eq(decimal, 1);
+	
+}
+END_TEST
+
 /* This function creates the test Suite structure, with the test cases added to it.  
 The test suite is then run within the main function.  */
 static Suite *create_test_suite(void) {
@@ -145,6 +161,9 @@ static Suite *create_test_suite(void) {
 
 	//Add the test for decimal to Roman conversion to the test case.  
 	tcase_add_test(tc_core, convert_decimal_to_roman_test);
+	
+	//Add the test for Roman to decimal conversion to the test case.  
+	tcase_add_test(tc_core, convert_roman_to_decimal_test);
 
 	//Add the test case to the tese suite.  
 	suite_add_tcase(s, tc_core);
