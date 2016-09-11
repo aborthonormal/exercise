@@ -47,6 +47,8 @@ START_TEST(convert_decimal_to_roman_test) {
 	flag = decimal_to_roman(4000, numeral);
 	ck_assert_int_eq(flag, 1);
 
+	flag = decimal_to_roman(1, NULL);
+	ck_assert_int_eq(flag, 1);
 
 	//Free memory assigned to "numeral"
 	free(numeral);

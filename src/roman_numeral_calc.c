@@ -19,6 +19,18 @@ int decimal_to_roman(const int i, char * numeral) {
 	//Flag set to non-zero value if input is incorrect or conversion fails.  
 	int flag = 0;
 
+	//First check if number is within the accepted range. 
+	if(i < MIN_DECIMAL || i > MAX_DECIMAL) {
+		flag = 1;
+		return flag;
+	}
+
+	//Check for a null pointer.  
+	if(numeral == NULL) {
+		flag = 1;
+		return flag;
+	}
+
 	//Ensure the string is clean before writing over it.  
 	memset(numeral, 0, strlen(numeral));
 
