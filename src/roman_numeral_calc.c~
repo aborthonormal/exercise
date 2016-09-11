@@ -53,7 +53,8 @@ int decimal_to_roman(const int decimal, char * numeral) {
 	//as Roman numerals are added to the string.  
 	int dtemp = decimal;
 
-	if(dtemp >= 900) {
+	//1000's place
+	if(dtemp >= 1000) {
 
 		//Count the 1000's in the decimal number.  Rounds down. 
 		int n = floor((float)dtemp/1000.0);
@@ -67,18 +68,18 @@ int decimal_to_roman(const int decimal, char * numeral) {
 			//Subtract 1000 from decimal value.  
 			dtemp -= 1000;
 		}
-
-		//Case when decimal is between 1000 and 900, so Roman 
-		//numeral is "CM".
-		if(dtemp >= 900) {
-
-			//Append "CM" to end of numeral buffer string.
-			buffer[strlen(buffer)] = 'C';
-			buffer[strlen(buffer)] = 'M';
+	}
 	
-			//Subtract 900 from decimal value.  
-			dtemp -= 900;
-		}
+	//Case when decimal is between 1000 and 900, so Roman 
+	//numeral is "CM".
+	if(dtemp >= 900) {
+
+		//Append "CM" to end of numeral buffer string.
+		buffer[strlen(buffer)] = 'C';
+		buffer[strlen(buffer)] = 'M';
+
+		//Subtract 900 from decimal value.  
+		dtemp -= 900;
 	}
 
 	//Copy contents of buffer to "numeral". 
