@@ -190,7 +190,8 @@ int roman_to_decimal(const char * numeral, int * decimal) {
 	}
 	 
 	//If the numeral string is preceeded by M's, these represent 
-	//values of 1000.  
+	//values of 1000.  There should be 3 maximum.  
+	int count=0;
 	while(strchr(ntemp,'M') == ntemp) {
 	
 		//Add 1000 to decimal value.  
@@ -201,6 +202,16 @@ int roman_to_decimal(const char * numeral, int * decimal) {
 		//over as well, so the string's length is correctly 
 		//shortened.  
 		memmove(ntemp, ntemp+1, strlen(ntemp));
+		
+		count++;
+		
+		//Check for more than 3 M's in a row.    
+		if(count > 3) {
+		
+			//Incorrectly formated Roman numeral, return. 
+			free(ntemp);
+			return 1;
+		}
 	}
 	
 	//Check for "CM", which represents 900.  	
@@ -213,12 +224,13 @@ int roman_to_decimal(const char * numeral, int * decimal) {
 			dtemp += 900;
 		
 			//Remove beginning of string.  
-			memmove(ntemp, ntemp+2, strlen(ntemp));
+			memmove(ntemp, ntemp+1, strlen(ntemp));
+			memmove(ntemp, ntemp+1, strlen(ntemp));
 			
 			//Ensure string ends in null-terminating character, 
 			//filling NULL from after the length of the new string to 
 			//the end of the allocated memory for the string.  
-			memset(ntemp+(strlen(ntemp)-1), 0, strlen(numeral)-strlen(ntemp)+1);
+			//memset(ntemp+(strlen(ntemp)-1), 0, strlen(numeral)-strlen(ntemp)+1);
 		}
 		else {
 			//Incorrectly formated Roman numeral, return. 
@@ -226,6 +238,79 @@ int roman_to_decimal(const char * numeral, int * decimal) {
 			return 1;
 		}
 	}
+	
+	//Check for "D", not necessarily at the beginning.  
+	if(strstr(ntemp,"D")) {
+	
+		//Check for leading "D", which represents 500.
+		if(strstr(ntemp,"D") == ntemp) {
+		
+			//Add 500 to decimal value.  
+			dtemp += 500;
+		
+			//Shift the characters of the string so the first is 
+			//dropped off.  The null terminating character is copied 
+			//over as well, so the string's length is correctly 
+			//shortened.  
+			memmove(ntemp, ntemp+1, strlen(ntemp));
+		}
+		else if(strstr(ntemp,"CD") == ntemp) {
+			//Check for leading "CD", which represents 400. 
+			
+			//Add 400 to decimal value.  
+			dtemp += 400;
+		
+			//Shift the characters of the string so the first two are 
+			//dropped off.  The null terminating character is copied 
+			//twice over as well, so the string's length is correctly 
+			//shortened.  
+			memmove(ntemp, ntemp+1, strlen(ntemp));
+			memmove(ntemp, ntemp+1, strlen(ntemp));
+			
+			//With leading "CD", there should be no following C's. 
+			if(strstr(ntemp,"C")) {
+			
+				//Incorrectly formated Roman numeral, return. 
+				free(ntemp);
+				return 1;
+			}
+		}
+		else {
+			
+			//Incorrectly formated Roman numeral, return. 
+			free(ntemp);
+			return 1;
+		}
+	}
+	
+	//If the numeral string is preceeded by C's, these represent 
+	//values of 100.  There should be 3 maximum.  
+	count=0;
+	while(strchr(ntemp,'C') == ntemp) {
+	
+		//Add 100 to decimal value.  
+		dtemp += 100;
+		
+		//Shift the characters of the string so the first is 
+		//dropped off.  The null terminating character is copied 
+		//over as well, so the string's length is correctly 
+		//shortened.  
+		memmove(ntemp, ntemp+1, strlen(ntemp));
+		
+		count++;
+		
+		//Check for more than 3 C's in a row.    
+		if(count > 3) {
+		
+			//Incorrectly formated Roman numeral, return. 
+			free(ntemp);
+			return 1;
+		}
+	}
+	
+	
+	
+	
 
 	//Free the temporary Roman numeral string.
 	free(ntemp);

@@ -143,6 +143,26 @@ START_TEST(convert_roman_to_decimal_test) {
 	roman_to_decimal("IV", &decimal);
 	ck_assert_int_eq(decimal, 4);
 	
+	//C -> 100
+	roman_to_decimal("C", &decimal);
+	ck_assert_int_eq(decimal, 100);
+	
+	//CCC -> 300
+	roman_to_decimal("CCC", &decimal);
+	ck_assert_int_eq(decimal, 300);
+	
+	//CD -> 400
+	roman_to_decimal("CD", &decimal);
+	ck_assert_int_eq(decimal, 400);
+	
+	//D -> 500
+	roman_to_decimal("D", &decimal);
+	ck_assert_int_eq(decimal, 500);
+	
+	//DCCC -> 800
+	roman_to_decimal("DCCC", &decimal);
+	ck_assert_int_eq(decimal, 800);
+	
 	//CM -> 900
 	roman_to_decimal("CM", &decimal);
 	ck_assert_int_eq(decimal, 900);
@@ -152,16 +172,11 @@ START_TEST(convert_roman_to_decimal_test) {
 	ck_assert_int_eq(decimal, 1000);
 	
 	//MCM -> 1900
-	int flag = roman_to_decimal("MCM", &decimal);
-	ck_assert_int_eq(flag,0);
-	
+	roman_to_decimal("MCM", &decimal);
 	ck_assert_int_eq(decimal, 1900);
 	
-	
-	
 	//MMCM -> 2900
-	flag = roman_to_decimal("MMCM", &decimal);
-	ck_assert_int_eq(flag,0);
+	roman_to_decimal("MMCM", &decimal);
 	ck_assert_int_eq(decimal, 2900);
 	
 	//MMM -> 3000
