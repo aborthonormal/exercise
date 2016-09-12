@@ -139,9 +139,25 @@ START_TEST(convert_roman_to_decimal_test) {
 	roman_to_decimal("I", &decimal);
 	ck_assert_int_eq(decimal, 1);
 	
+	//III -> 3
+	roman_to_decimal("III", &decimal);
+	ck_assert_int_eq(decimal, 3);
+	
 	//IV -> 4
 	roman_to_decimal("IV", &decimal);
 	ck_assert_int_eq(decimal, 4);
+	
+	//V -> 5
+	roman_to_decimal("V", &decimal);
+	ck_assert_int_eq(decimal, 5);
+	
+	//VIII -> 8
+	roman_to_decimal("VIII", &decimal);
+	ck_assert_int_eq(decimal, 8);
+	
+	//IX -> 9
+	roman_to_decimal("IX", &decimal);
+	ck_assert_int_eq(decimal, 9);
 	
 	//X -> 10
 	roman_to_decimal("X", &decimal);

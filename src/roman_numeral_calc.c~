@@ -181,13 +181,6 @@ int roman_to_decimal(const char * numeral, int * decimal) {
 	//manipulated as need.  
 	char * ntemp = (char*)malloc(sizeof(char) * (strlen(numeral)+1));
 	memcpy(ntemp, numeral, strlen(numeral)+1);
-
-	if(strcmp(ntemp,"I") == 0) {
-		dtemp = 1;
-	}
-	else if(strcmp(ntemp, "IV") == 0) {
-		dtemp = 4;
-	}
 	 
 	//If the numeral string is preceeded by M's, these represent 
 	//values of 1000.  There should be 3 maximum.  
@@ -402,8 +395,100 @@ int roman_to_decimal(const char * numeral, int * decimal) {
 		}
 	}
 	
+	//Check for "IX", which represents 9.  	
+	if(strstr(ntemp,"IX")) {
 	
-
+		//Check if "IX" is at beginning of string.  
+		if(strstr(ntemp,"IX") == ntemp) {
+		
+			//Add 9 to decimal value.
+			dtemp += 9;
+		
+			//Remove beginning of string.  
+			memmove(ntemp, ntemp+1, strlen(ntemp));
+			memmove(ntemp, ntemp+1, strlen(ntemp));
+			
+			//Ensure string ends in null-terminating character, 
+			//filling NULL from after the length of the new string to 
+			//the end of the allocated memory for the string.  
+			//memset(ntemp+(strlen(ntemp)-1), 0, strlen(numeral)-strlen(ntemp)+1);
+		}
+		else {
+			//Incorrectly formated Roman numeral, return. 
+			free(ntemp);
+			return 1;
+		}
+	}
+	
+	//Check for "V", not necessarily at the beginning.  
+	if(strstr(ntemp,"V")) {
+	
+		//Check for leading "V", which represents 5.
+		if(strstr(ntemp,"V") == ntemp) {
+		
+			//Add 5 to decimal value.  
+			dtemp += 5;
+		
+			//Shift the characters of the string so the first is 
+			//dropped off.  The null terminating character is copied 
+			//over as well, so the string's length is correctly 
+			//shortened.  
+			memmove(ntemp, ntemp+1, strlen(ntemp));
+		}
+		else if(strstr(ntemp,"IV") == ntemp) {
+			//Check for leading "IV", which represents 4. 
+			
+			//Add 4 to decimal value.  
+			dtemp += 4;
+		
+			//Shift the characters of the string so the first two are 
+			//dropped off.  The null terminating character is copied 
+			//twice over as well, so the string's length is correctly 
+			//shortened.  
+			memmove(ntemp, ntemp+1, strlen(ntemp));
+			memmove(ntemp, ntemp+1, strlen(ntemp));
+			
+			//With leading "IV", there should be no following I's. 
+			if(strstr(ntemp,"I")) {
+			
+				//Incorrectly formated Roman numeral, return. 
+				free(ntemp);
+				return 1;
+			}
+		}
+		else {
+			
+			//Incorrectly formated Roman numeral, return. 
+			free(ntemp);
+			return 1;
+		}
+	}
+	
+	//If the numeral string is preceeded by I's, these represent 
+	//values of 1.  There should be 3 maximum.  
+	count=0;
+	while(strchr(ntemp,'I') == ntemp) {
+	
+		//Add 1 to decimal value.  
+		dtemp += 1;
+		
+		//Shift the characters of the string so the first is 
+		//dropped off.  The null terminating character is copied 
+		//over as well, so the string's length is correctly 
+		//shortened.  
+		memmove(ntemp, ntemp+1, strlen(ntemp));
+		
+		count++;
+		
+		//Check for more than 3 I's in a row.    
+		if(count > 3) {
+		
+			//Incorrectly formated Roman numeral, return. 
+			free(ntemp);
+			return 1;
+		}
+	}
+	
 	//Free the temporary Roman numeral string.
 	free(ntemp);
 
