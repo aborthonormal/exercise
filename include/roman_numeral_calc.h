@@ -22,4 +22,7 @@ int decimal_to_roman(const int decimal, char * numeral);
 /* Convert Roman numerals to decimal numbers in the range 1-3999.  The function is passed a C string containing the Roman numerals to convert and a pointer to the integer variable that will receive the converted decimal value.  A '0' value is returned if the conversion was successful.  A '1' value is returned if the conversion fails due to invalid input. */
 int roman_to_decimal(const char * numeral, int * decimal);
 
+/* Add two Roman numerals.  The addition is performed by converting both Roman numeral operands to decimal, adding the decimal numbers, and then converting the result to Roman numerals.  The sum must be less than 3999 for the addition to succeed. A '0' value is returned if the addition succeeds.  A '1' value is returned if the addition fails, either due to a failed conversion or the sum is too large.  */
+int roman_addition(const char * numeral_a, const char * numeral_b, char * numeral_sum);
+
 #endif

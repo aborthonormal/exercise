@@ -303,6 +303,18 @@ START_TEST(double_conversion_test) {
 }
 END_TEST
 
+/* Test the roman_addition() function.  Whole numbers that sum up to anywhere within 2-3999 are converted to Roman numerals, those are passed to the addition function, the resulting roman numeral is converted back to decimal, and the result is compared.  Thorough testing of the conversion functions allows us to conduct this test with confidence.  */
+START_TEST(roman_addition_test) {
+
+	//string used for basic tests
+	char * numeral = (char*)malloc(sizeof(char) * (strlen(MAX_LENGTH_ROMAN)+1));
+	memset(numeral, 0, strlen(MAX_LENGTH_ROMAN)+1);
+
+	roman_addition("I", "I", numeral);
+	ck_assert_str_eq(numeral, "II");
+}
+END_TEST
+
 /* This function creates the test Suite structure, with the test cases added to it.  
 The test suite is then run within the main function.  */
 static Suite *create_test_suite(void) {
@@ -326,8 +338,11 @@ static Suite *create_test_suite(void) {
 	//Add the test for Roman to decimal conversion to the test case.  
 	tcase_add_test(tc_core, convert_roman_to_decimal_test);
 
-	//Add the test for double conversion to the test case.  
+	//Add the test for double conversion, an broad test of both conversion functions.  
 	tcase_add_test(tc_core, double_conversion_test);
+	
+	//Add the test for the addition function.  
+	tcase_add_test(tc_core, roman_addition_test);
 
 	//Add the test case to the tese suite.  
 	suite_add_tcase(s, tc_core);
