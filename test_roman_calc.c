@@ -357,13 +357,53 @@ END_TEST
 /* Test the roman_subtraction() function.  Whole numbers that have a difference anywhere within 2-3998 are converted to Roman numerals, those are passed to the subtraction function, the resulting roman numeral is converted back to decimal, and the result is compared.  Thorough testing of the conversion functions allows us to conduct this test with confidence.  */
 START_TEST(roman_subtraction_test) {
 
+	//Strings used for subtractions
+	//First Roman numeral
+	char * numeral_a = (char*)malloc(sizeof(char) * (strlen(MAX_LENGTH_ROMAN)+1));
+	memset(numeral_a, 0, strlen(MAX_LENGTH_ROMAN)+1);
+	
+	//Second Roman numeral
+	char * numeral_b = (char*)malloc(sizeof(char) * (strlen(MAX_LENGTH_ROMAN)+1));
+	memset(numeral_b, 0, strlen(MAX_LENGTH_ROMAN)+1);
+	
 	//Roman numeral difference
 	char * numeral_diff = (char*)malloc(sizeof(char) * (strlen(MAX_LENGTH_ROMAN)+1));
 	memset(numeral_diff, 0, strlen(MAX_LENGTH_ROMAN)+1);
+
+	//Integers for subtraction operands
+	int a, b;
+
+	//Integer used to store decimal conversion of difference
+	int decimal;
 	
-	roman_subtraction("II", "I", numeral_diff);
+	//Flag to check for failure condition from roman_subtraction()
+	int flag = 0;
 	
-	ck_assert_str_eq(numeral_diff,"I");
+	//Set seed for random number generator.  
+	srand(time(NULL));
+	
+	//Try many random values for a and b that have a difference 
+	//greater than 1.  
+	for(int i=0; i<10000; i++) {
+
+		//Difference a-b is between 1-3998		
+		a = (rand() % (MAX_DECIMAL-1)) + 2; //2 to 3999
+		b = (rand() % (a-1)) + 1; //1 to (a-1)
+
+		//Convert operands to Roman numerals.  
+		decimal_to_roman(a, numeral_a);
+		decimal_to_roman(b, numeral_b);
+	
+		//Subtract Roman numerals, check flag for failure.  
+		flag = roman_subtraction(numeral_a, numeral_b, numeral_diff);
+		ck_assert_int_eq(flag, 0);
+	
+		//Convert Roman numeral difference to decimal.  
+		roman_to_decimal(numeral_diff, &decimal);
+
+		//Compare the result to the inputs.  
+		ck_assert_int_eq(decimal, (a-b));
+	}
 }
 END_TEST
 

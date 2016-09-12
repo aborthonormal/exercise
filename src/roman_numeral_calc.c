@@ -441,9 +441,43 @@ int roman_addition(const char * numeral_a, const char * numeral_b, char * numera
 /* Subtract two Roman numerals.  The subtraction is performed by converting both Roman numeral operands to decimal, subtracting the decimal numbers, and then converting the result to Roman numerals.  All strings should be pre-allocated.  The difference must be greater than or equal to 1 for the subtraction to succeed. A '0' value is returned if the subtraction succeeds.  A '1' value is returned if the subtraction fails, either due to a failed conversion or the difference is too small.  */
 int roman_subtraction(const char * numeral_a, const char * numeral_b, char * numeral_diff) {
 
-	//Response for trivial case.
-	strncpy(numeral_diff, "I", 2);
+	//Check for null strings
+	if(numeral_a == NULL || numeral_b == NULL || numeral_diff == NULL) {
+		//Subtraction failed.
+		return 1;
+	}
 	
+	//Integers used for conversion and subtraction.  
+	int decimal_a;
+	int decimal_b;
+	int decimal_diff;
+	
+	//Convert the operands to decimal, checking for flags from 
+	//conversion functions.  
+	if(roman_to_decimal(numeral_a, &decimal_a) || roman_to_decimal(numeral_b, &decimal_b)) {
+	
+		//Subtraction failed.
+		return 1;
+	}
+	
+	//Subtract the decimal values.
+	decimal_diff = decimal_a - decimal_b;
+	
+	//Check if difference is a valid decimal number.    
+	if(decimal_diff < 1) {
+	
+		//Subtraction failed.
+		return 1;
+	}
+	
+	//Convert decimal difference to Roman numeral difference, check 
+	//for flag. 
+	if(decimal_to_roman(decimal_diff, numeral_diff)) {
+	
+		//Subtraction failed.
+		return 1;
+	}
+
 	return 0;
 }
 
