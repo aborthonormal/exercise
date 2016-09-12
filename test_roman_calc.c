@@ -13,7 +13,9 @@ functions for conversion, addition, and subtraction.
 #include <malloc.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include <check.h>
+
 #include "roman_numeral_calc.h"
 
 //Test for the decimal to Roman numeral conversion function.  
@@ -283,16 +285,11 @@ START_TEST(double_conversion_test) {
 	int decimal;
 
 	//Check every integer from 1-3999.
-	for(int i=0; i<4000; i++) {
+	for(int i=0; i <= MAX_DECIMAL; i++) {
 	
 		//Convert from decimal to Roman numeral and then back again. 
-		decimal_to_roman(i, numeral);
-		
-		//printf("%d -> %s\n", i, numeral);
-		
+		decimal_to_roman(i, numeral);		
 		roman_to_decimal(numeral, &decimal);
-		
-		//printf("%d -> %s\n", decimal, numeral);
 		
 		//Two numbers should be equal.  
 		ck_assert_int_eq(decimal, i);
@@ -306,12 +303,54 @@ END_TEST
 /* Test the roman_addition() function.  Whole numbers that sum up to anywhere within 2-3999 are converted to Roman numerals, those are passed to the addition function, the resulting roman numeral is converted back to decimal, and the result is compared.  Thorough testing of the conversion functions allows us to conduct this test with confidence.  */
 START_TEST(roman_addition_test) {
 
-	//string used for basic tests
-	char * numeral = (char*)malloc(sizeof(char) * (strlen(MAX_LENGTH_ROMAN)+1));
-	memset(numeral, 0, strlen(MAX_LENGTH_ROMAN)+1);
+	//Strings used for additions
+	//First Roman numeral
+	char * numeral_a = (char*)malloc(sizeof(char) * (strlen(MAX_LENGTH_ROMAN)+1));
+	memset(numeral_a, 0, strlen(MAX_LENGTH_ROMAN)+1);
+	
+	//Second Roman numeral
+	char * numeral_b = (char*)malloc(sizeof(char) * (strlen(MAX_LENGTH_ROMAN)+1));
+	memset(numeral_b, 0, strlen(MAX_LENGTH_ROMAN)+1);
+	
+	//Roman numeral sum
+	char * numeral_sum = (char*)malloc(sizeof(char) * (strlen(MAX_LENGTH_ROMAN)+1));
+	memset(numeral_sum, 0, strlen(MAX_LENGTH_ROMAN)+1);
 
-	roman_addition("I", "I", numeral);
-	ck_assert_str_eq(numeral, "II");
+	//Integers for addition operands.  
+	int a, b;
+
+	//Integer used to store decimal conversion of sum.  
+	int decimal;
+	
+	//Flag to check for failure condition from roman_addition()
+	int flag = 0;
+	
+	//Set seed for random number generator.  
+	srand(time(NULL));
+	
+	//Try many random values for a and b that sum up to less than 
+	//3999. Initial idea to test all whole numbers that sum to 3999 
+	//resulted in a timeout error with the libcheck function.  
+	for(int i=0; i<10000; i++) {
+
+		//Sum a+b is between 1-3999
+		a = (rand() % (MAX_DECIMAL-1)) + 1;
+		b = (rand() % (MAX_DECIMAL-a)) + 1;
+
+		//Convert operands to Roman numerals.  
+		decimal_to_roman(a, numeral_a);
+		decimal_to_roman(b, numeral_b);
+	
+		//Add Roman numerals, check flag for failure.  
+		flag = roman_addition(numeral_a, numeral_b, numeral_sum);
+		ck_assert_int_eq(flag, 0);
+	
+		//Convert Roman numeral sum to decimal.  
+		roman_to_decimal(numeral_sum, &decimal);
+
+		//Compare the result to the inputs.  
+		ck_assert_int_eq(decimal, (a+b));
+	}
 }
 END_TEST
 

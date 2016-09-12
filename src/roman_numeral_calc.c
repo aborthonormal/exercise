@@ -396,11 +396,44 @@ int roman_to_decimal(const char * numeral, int * decimal) {
 	return 0;
 }
 
-/* Add two Roman numerals.  The addition is performed by converting both Roman numeral operands to decimal, adding the decimal numbers, and then converting the result to Roman numerals.  The sum must be less than 3999 for the addition to succeed. A '0' value is returned if the addition succeeds.  A '1' value is returned if the addition fails, either due to a failed conversion or the sum is too large.  */
+/* Add two Roman numerals.  The addition is performed by converting both Roman numeral operands to decimal, adding the decimal numbers, and then converting the result to Roman numerals.  All strings should be pre-allocated.  The sum must be less than 3999 for the addition to succeed. A '0' value is returned if the addition succeeds.  A '1' value is returned if the addition fails, either due to a failed conversion or the sum is too large.  */
 int roman_addition(const char * numeral_a, const char * numeral_b, char * numeral_sum) {
 
-	//Trivial response for test
-	strncpy(numeral_sum, "II", 3);
+	//Check for null strings
+	if(numeral_a == NULL || numeral_b == NULL || numeral_sum == NULL) {
+		//Addition failed.
+		return 1;
+	}
+	
+	//Integers used for conversion and addition.  
+	int decimal_a;
+	int decimal_b;
+	int decimal_sum;
+	
+	//Convert the operands to decimal, checking for flags from 
+	//conversion functions.  
+	if(roman_to_decimal(numeral_a, &decimal_a) || roman_to_decimal(numeral_b, &decimal_b)) {
+	
+		//Addition failed.
+		return 1;
+	}
+	
+	//Add the decimal values.
+	decimal_sum = decimal_a + decimal_b;
+	
+	//Check if sum is within maximum value supported.  
+	if(decimal_sum > MAX_DECIMAL) {
+	
+		//Addition failed.
+		return 1;
+	}
+	
+	//Convert decimal sum to Roman numeral sum, check for flag. 
+	if(decimal_to_roman(decimal_sum, numeral_sum)) {
+	
+		//Addition failed.
+		return 1;
+	}
 
 	return 0;
 }
