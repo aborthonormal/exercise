@@ -207,285 +207,136 @@ int roman_to_decimal(const char * numeral, int * decimal) {
 		}
 	}
 	
-	//Check for "CM", which represents 900.  	
-	if(strstr(ntemp,"CM")) {
+	//---------------------------------	
 	
-		//Check if "CM" is at beginning of string.  
-		if(strstr(ntemp,"CM") == ntemp) {
-		
-			//Add 900 to decimal value.
-			dtemp += 900;
-		
-			//Remove beginning of string.  
-			memmove(ntemp, ntemp+1, strlen(ntemp));
-			memmove(ntemp, ntemp+1, strlen(ntemp));
-			
-			//Ensure string ends in null-terminating character, 
-			//filling NULL from after the length of the new string to 
-			//the end of the allocated memory for the string.  
-			//memset(ntemp+(strlen(ntemp)-1), 0, strlen(numeral)-strlen(ntemp)+1);
-		}
-		else {
-			//Incorrectly formated Roman numeral, return. 
-			free(ntemp);
-			return 1;
-		}
-	}
+	/* Converting from Roman numerals to decimal numbers follows a 
+	similar approach as the reverse conversion that is described in 
+	"decimal_to_roman()" above.  Within each decimal place, strings 
+	representing 9, 5, 4, and 1 are searched for within "ntemp".  As 
+	they are identified in leading positions in the numeral string, 
+	they are removed from the front of the string and their equivalent 
+	value is added to the growing decimal value, stored in "dtemp".  
+	*/
 	
-	//Check for "D", not necessarily at the beginning.  
-	if(strstr(ntemp,"D")) {
+	//For each decimal place from the 100's to the 1's, search for the 
+	//Roman numerals that represent the respective values of 9, 5, 4, 
+	//and 1.  "symbol_iter" starts at 2 because that is the 
+	//index for the 100s decimal value and Roman numeral symbol C.  
+	for(int symbol_iter=2; symbol_iter < num_symbol; symbol_iter+=2) {
 	
-		//Check for leading "D", which represents 500.
-		if(strstr(ntemp,"D") == ntemp) {
+		//decimal value that represents the decimal place
+		int dplace = decimal_symbol[symbol_iter];
+	
+		//Decimal number values representing the four cases of values 
+		//within the current decimal place.  
+		int val9 = 9 * dplace;
+		int val5 = 5 * dplace;
+		int val4 = 4 * dplace;
+		int val1 = dplace;
+	
+		//Roman numeral strings that correspond to the above decimal values.  All are null-terimated c strings.  
+		char numstr9[] = {'\0', '\0', '\0'};
+		numstr9[0] = roman_symbol[symbol_iter];
+		numstr9[1] = roman_symbol[symbol_iter-2];
 		
-			//Add 500 to decimal value.  
-			dtemp += 500;
+		char numstr5[] = {'\0', '\0'};
+		numstr5[0] = roman_symbol[symbol_iter-1];
 		
-			//Shift the characters of the string so the first is 
-			//dropped off.  The null terminating character is copied 
-			//over as well, so the string's length is correctly 
-			//shortened.  
-			memmove(ntemp, ntemp+1, strlen(ntemp));
+		char numstr4[] = {'\0', '\0', '\0'};
+		numstr4[0] = roman_symbol[symbol_iter];
+		numstr4[1] = roman_symbol[symbol_iter-1];
+		
+		char numstr1[] = {'\0', '\0'};
+		numstr1[0] = roman_symbol[symbol_iter];
+	
+		//Check for numeral string that represents the 9 value.   	
+		if(strstr(ntemp, numstr9)) {
+	
+			//Check if the string is at beginning.  
+			if(strstr(ntemp, numstr9) == ntemp) {
+		
+				//Add the corresponding 9 value to the decimal.
+				dtemp += val9;
+		
+				//Remove beginning two characters of string.  
+				memmove(ntemp, ntemp+1, strlen(ntemp));
+				memmove(ntemp, ntemp+1, strlen(ntemp));
+			}
+			else {
+				//Incorrectly formated Roman numeral, return. 
+				free(ntemp);
+				return 1;
+			}
 		}
-		else if(strstr(ntemp,"CD") == ntemp) {
-			//Check for leading "CD", which represents 400. 
-			
-			//Add 400 to decimal value.  
-			dtemp += 400;
+	
+		//Check for numeral for 5, not necessarily at the beginning.  
+		if(strstr(ntemp, numstr5)) {
+	
+			//Check for leading 5 numeral.  
+			if(strstr(ntemp, numstr5) == ntemp) {
 		
-			//Shift the characters of the string so the first two are 
-			//dropped off.  The null terminating character is copied 
-			//twice over as well, so the string's length is correctly 
-			//shortened.  
-			memmove(ntemp, ntemp+1, strlen(ntemp));
-			memmove(ntemp, ntemp+1, strlen(ntemp));
+				//Add the corresponding 5 value to the decimal. 
+				dtemp += val5;
+		
+				//Shift the characters of the string so the first is 
+				//dropped off.  The null terminating character is copied 
+				//over as well, so the string's length is correctly 
+				//shortened.  
+				memmove(ntemp, ntemp+1, strlen(ntemp));
+			}
+			else if(strstr(ntemp, numstr4) == ntemp) {
+				//Check for leading numeral for 4 value.  
 			
-			//With leading "CD", there should be no following C's. 
-			if(strstr(ntemp,"C")) {
+				//Add corresponding 4 value to the decimal.   
+				dtemp += val4;
+		
+				//Shift the characters of the string so the first two 
+				//are dropped off.  The null terminating character is 
+				//copied twice over as well, so the string's length is 
+				//correctly shortened.  
+				memmove(ntemp, ntemp+1, strlen(ntemp));
+				memmove(ntemp, ntemp+1, strlen(ntemp));
+			
+				//With leading numeral for 4 value, there should be no 
+				//following numerals for the 1 value.  
+				if(strstr(ntemp,"numstr1")) {
+			
+					//Incorrectly formated Roman numeral, return. 
+					free(ntemp);
+					return 1;
+				}
+			}
+			else {
 			
 				//Incorrectly formated Roman numeral, return. 
 				free(ntemp);
 				return 1;
 			}
 		}
-		else {
-			
-			//Incorrectly formated Roman numeral, return. 
-			free(ntemp);
-			return 1;
-		}
-	}
 	
-	//If the numeral string is preceeded by C's, these represent 
-	//values of 100.  There should be 3 maximum.  
-	count=0;
-	while(strchr(ntemp,'C') == ntemp) {
+		//If the string starts with numerals for the 1 value, here 
+		//should be 3 maximum.  
+		int count=0;
+		while(strstr(ntemp, numstr1) == ntemp) {
 	
-		//Add 100 to decimal value.  
-		dtemp += 100;
-		
-		//Shift the characters of the string so the first is 
-		//dropped off.  The null terminating character is copied 
-		//over as well, so the string's length is correctly 
-		//shortened.  
-		memmove(ntemp, ntemp+1, strlen(ntemp));
-		
-		count++;
-		
-		//Check for more than 3 C's in a row.    
-		if(count > 3) {
-		
-			//Incorrectly formated Roman numeral, return. 
-			free(ntemp);
-			return 1;
-		}
-	}
-	
-	//Check for "XC", which represents 90.  	
-	if(strstr(ntemp,"XC")) {
-	
-		//Check if "XC" is at beginning of string.  
-		if(strstr(ntemp,"XC") == ntemp) {
-		
-			//Add 90 to decimal value.
-			dtemp += 90;
-		
-			//Remove beginning of string.  
-			memmove(ntemp, ntemp+1, strlen(ntemp));
-			memmove(ntemp, ntemp+1, strlen(ntemp));
-			
-			//Ensure string ends in null-terminating character, 
-			//filling NULL from after the length of the new string to 
-			//the end of the allocated memory for the string.  
-			//memset(ntemp+(strlen(ntemp)-1), 0, strlen(numeral)-strlen(ntemp)+1);
-		}
-		else {
-			//Incorrectly formated Roman numeral, return. 
-			free(ntemp);
-			return 1;
-		}
-	}
-	
-	//Check for "L", not necessarily at the beginning.  
-	if(strstr(ntemp,"L")) {
-	
-		//Check for leading "L", which represents 50.
-		if(strstr(ntemp,"L") == ntemp) {
-		
-			//Add 50 to decimal value.  
-			dtemp += 50;
+			//Add corresponding 1 value to the decimal. 
+			dtemp += val1;
 		
 			//Shift the characters of the string so the first is 
 			//dropped off.  The null terminating character is copied 
 			//over as well, so the string's length is correctly 
 			//shortened.  
 			memmove(ntemp, ntemp+1, strlen(ntemp));
-		}
-		else if(strstr(ntemp,"XL") == ntemp) {
-			//Check for leading "XL", which represents 40. 
-			
-			//Add 40 to decimal value.  
-			dtemp += 40;
 		
-			//Shift the characters of the string so the first two are 
-			//dropped off.  The null terminating character is copied 
-			//twice over as well, so the string's length is correctly 
-			//shortened.  
-			memmove(ntemp, ntemp+1, strlen(ntemp));
-			memmove(ntemp, ntemp+1, strlen(ntemp));
-			
-			//With leading "XL", there should be no following X's. 
-			if(strstr(ntemp,"X")) {
-			
+			count++;
+		
+			//Check for more than 3 numerals for 1 values in a row.    
+			if(count > 3) {
+		
 				//Incorrectly formated Roman numeral, return. 
 				free(ntemp);
 				return 1;
 			}
-		}
-		else {
-			
-			//Incorrectly formated Roman numeral, return. 
-			free(ntemp);
-			return 1;
-		}
-	}
-	
-	//If the numeral string is preceeded by X's, these represent 
-	//values of 10.  There should be 3 maximum.  
-	count=0;
-	while(strchr(ntemp,'X') == ntemp) {
-	
-		//Add 10 to decimal value.  
-		dtemp += 10;
-		
-		//Shift the characters of the string so the first is 
-		//dropped off.  The null terminating character is copied 
-		//over as well, so the string's length is correctly 
-		//shortened.  
-		memmove(ntemp, ntemp+1, strlen(ntemp));
-		
-		count++;
-		
-		//Check for more than 3 X's in a row.    
-		if(count > 3) {
-		
-			//Incorrectly formated Roman numeral, return. 
-			free(ntemp);
-			return 1;
-		}
-	}
-	
-	//Check for "IX", which represents 9.  	
-	if(strstr(ntemp,"IX")) {
-	
-		//Check if "IX" is at beginning of string.  
-		if(strstr(ntemp,"IX") == ntemp) {
-		
-			//Add 9 to decimal value.
-			dtemp += 9;
-		
-			//Remove beginning of string.  
-			memmove(ntemp, ntemp+1, strlen(ntemp));
-			memmove(ntemp, ntemp+1, strlen(ntemp));
-			
-			//Ensure string ends in null-terminating character, 
-			//filling NULL from after the length of the new string to 
-			//the end of the allocated memory for the string.  
-			//memset(ntemp+(strlen(ntemp)-1), 0, strlen(numeral)-strlen(ntemp)+1);
-		}
-		else {
-			//Incorrectly formated Roman numeral, return. 
-			free(ntemp);
-			return 1;
-		}
-	}
-	
-	//Check for "V", not necessarily at the beginning.  
-	if(strstr(ntemp,"V")) {
-	
-		//Check for leading "V", which represents 5.
-		if(strstr(ntemp,"V") == ntemp) {
-		
-			//Add 5 to decimal value.  
-			dtemp += 5;
-		
-			//Shift the characters of the string so the first is 
-			//dropped off.  The null terminating character is copied 
-			//over as well, so the string's length is correctly 
-			//shortened.  
-			memmove(ntemp, ntemp+1, strlen(ntemp));
-		}
-		else if(strstr(ntemp,"IV") == ntemp) {
-			//Check for leading "IV", which represents 4. 
-			
-			//Add 4 to decimal value.  
-			dtemp += 4;
-		
-			//Shift the characters of the string so the first two are 
-			//dropped off.  The null terminating character is copied 
-			//twice over as well, so the string's length is correctly 
-			//shortened.  
-			memmove(ntemp, ntemp+1, strlen(ntemp));
-			memmove(ntemp, ntemp+1, strlen(ntemp));
-			
-			//With leading "IV", there should be no following I's. 
-			if(strstr(ntemp,"I")) {
-			
-				//Incorrectly formated Roman numeral, return. 
-				free(ntemp);
-				return 1;
-			}
-		}
-		else {
-			
-			//Incorrectly formated Roman numeral, return. 
-			free(ntemp);
-			return 1;
-		}
-	}
-	
-	//If the numeral string is preceeded by I's, these represent 
-	//values of 1.  There should be 3 maximum.  
-	count=0;
-	while(strchr(ntemp,'I') == ntemp) {
-	
-		//Add 1 to decimal value.  
-		dtemp += 1;
-		
-		//Shift the characters of the string so the first is 
-		//dropped off.  The null terminating character is copied 
-		//over as well, so the string's length is correctly 
-		//shortened.  
-		memmove(ntemp, ntemp+1, strlen(ntemp));
-		
-		count++;
-		
-		//Check for more than 3 I's in a row.    
-		if(count > 3) {
-		
-			//Incorrectly formated Roman numeral, return. 
-			free(ntemp);
-			return 1;
 		}
 	}
 	
