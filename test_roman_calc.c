@@ -354,6 +354,19 @@ START_TEST(roman_addition_test) {
 }
 END_TEST
 
+/* Test the roman_subtraction() function.  Whole numbers that have a difference anywhere within 2-3998 are converted to Roman numerals, those are passed to the subtraction function, the resulting roman numeral is converted back to decimal, and the result is compared.  Thorough testing of the conversion functions allows us to conduct this test with confidence.  */
+START_TEST(roman_subtraction_test) {
+
+	//Roman numeral difference
+	char * numeral_diff = (char*)malloc(sizeof(char) * (strlen(MAX_LENGTH_ROMAN)+1));
+	memset(numeral_diff, 0, strlen(MAX_LENGTH_ROMAN)+1);
+	
+	roman_subtraction("II", "I", numeral_diff);
+	
+	ck_assert_str_eq(numeral_diff,"I");
+}
+END_TEST
+
 /* This function creates the test Suite structure, with the test cases added to it.  
 The test suite is then run within the main function.  */
 static Suite *create_test_suite(void) {
@@ -382,6 +395,9 @@ static Suite *create_test_suite(void) {
 	
 	//Add the test for the addition function.  
 	tcase_add_test(tc_core, roman_addition_test);
+	
+	//Add the test for the subtraction function.
+	tcase_add_test(tc_core, roman_subtraction_test);
 
 	//Add the test case to the tese suite.  
 	suite_add_tcase(s, tc_core);

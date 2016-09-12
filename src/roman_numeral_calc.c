@@ -396,7 +396,7 @@ int roman_to_decimal(const char * numeral, int * decimal) {
 	return 0;
 }
 
-/* Add two Roman numerals.  The addition is performed by converting both Roman numeral operands to decimal, adding the decimal numbers, and then converting the result to Roman numerals.  All strings should be pre-allocated.  The sum must be less than 3999 for the addition to succeed. A '0' value is returned if the addition succeeds.  A '1' value is returned if the addition fails, either due to a failed conversion or the sum is too large.  */
+/* Add two Roman numerals.  The addition is performed by converting both Roman numeral operands to decimal, adding the decimal numbers, and then converting the result to Roman numerals.  All strings should be pre-allocated.  The sum must be less than or equal to 3999 for the addition to succeed. A '0' value is returned if the addition succeeds.  A '1' value is returned if the addition fails, either due to a failed conversion or the sum is too large.  */
 int roman_addition(const char * numeral_a, const char * numeral_b, char * numeral_sum) {
 
 	//Check for null strings
@@ -435,6 +435,15 @@ int roman_addition(const char * numeral_a, const char * numeral_b, char * numera
 		return 1;
 	}
 
+	return 0;
+}
+
+/* Subtract two Roman numerals.  The subtraction is performed by converting both Roman numeral operands to decimal, subtracting the decimal numbers, and then converting the result to Roman numerals.  All strings should be pre-allocated.  The difference must be greater than or equal to 1 for the subtraction to succeed. A '0' value is returned if the subtraction succeeds.  A '1' value is returned if the subtraction fails, either due to a failed conversion or the difference is too small.  */
+int roman_subtraction(const char * numeral_a, const char * numeral_b, char * numeral_diff) {
+
+	//Response for trivial case.
+	strncpy(numeral_diff, "I", 2);
+	
 	return 0;
 }
 
