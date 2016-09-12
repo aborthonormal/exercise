@@ -227,6 +227,32 @@ START_TEST(convert_roman_to_decimal_test) {
 	roman_to_decimal("MMMCM", &decimal);
 	ck_assert_int_eq(decimal, 3900);
 	
+	//Test if input Roman numeral string is valid.  
+	int flag = 0;
+	
+	//Correct input
+	flag = roman_to_decimal("MMMCM", &decimal);
+	ck_assert_int_eq(flag, 0);
+	
+	//Incorrect input
+	flag = roman_to_decimal("MMMIICM", &decimal);
+	ck_assert_int_eq(flag, 1);
+	
+	//Incorrect input
+	flag = roman_to_decimal("IIII", &decimal);
+	ck_assert_int_eq(flag, 1);
+	
+	//Incorrect input
+	flag = roman_to_decimal("absC", &decimal);
+	ck_assert_int_eq(flag, 1);
+
+	//Incorrect input
+	flag = roman_to_decimal(NULL, &decimal);
+	ck_assert_int_eq(flag, 1);
+	
+	//Incorrect input
+	flag = roman_to_decimal("IV", NULL);
+	ck_assert_int_eq(flag, 1);	
 }
 END_TEST
 

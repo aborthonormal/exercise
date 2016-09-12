@@ -8,10 +8,11 @@ This file defines library functions that allow the user to add and subtract Roma
 */
 
 #include <stdio.h>
-#include <malloc.h>
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
+#include <ctype.h>
+#include <stdbool.h>
 
 #include "roman_numeral_calc.h"
 
@@ -24,20 +25,16 @@ static const int num_symbol = 7;
 /* Convert decimal numbers (1-3999) to Roman numerals.  The function writes to a C string provided by the caller.  The array must be large enough to store the characters of the numerals and the null-terminating character.  A '0' value is returned if the conversion was successful.  A '1' value is returned if the conversion fails due to invalid input. */
 int decimal_to_roman(const int decimal, char * numeral) {
 
-	//Flag set to non-zero value if input is incorrect or conversion 
-	//fails.  
-	int flag = 0;
-
 	//First check if number is within the accepted range. 
 	if(decimal < MIN_DECIMAL || decimal > MAX_DECIMAL) {
-		flag = 1;
-		return flag;
+		//Failed, return.  
+		return 1;
 	}
 
 	//Check for a null pointer.  
 	if(numeral == NULL) {
-		flag = 1;
-		return flag;
+		//Failed, return.  
+		return 1;
 	}
 
 	//Ensure the string is clean before writing over it.  
@@ -161,18 +158,31 @@ int decimal_to_roman(const int decimal, char * numeral) {
 	//dtemp should equal zero now, with all value extracted and 	
 	//converted to Roman numerals.  If not, something went wrong.  
 	if(dtemp != 0) {
-		flag = 1;
-		return flag;
+		//Failed, return.  
+		return 1;
 	}
 
 	//Free buffer memory
 	free(buffer);
 
-	return flag;
+	//Successful conversion, return.  
+	return 0;
 }
 
 /* Convert Roman numerals to decimal numbers in the range 1-3999.  The function is passed a C string containing the Roman numerals to convert and a pointer to the integer variable that will receive the converted decimal value.  A '0' value is returned if the conversion was successful.  A '1' value is returned if the conversion fails due to invalid input. */
 int roman_to_decimal(const char * numeral, int * decimal) {
+
+	//Ensure that numeral string is not null.
+	if(numeral == NULL) {
+		//Invalid input, conversion fails.  
+		return 1;
+	}
+	
+	//Ensure that decimal integer is not null.  
+	if(decimal == NULL) {
+		//Invalid input, conversion fails.
+		return 1;
+	}
 
 	//temporary variable to store decimal number as it is built  
 	int dtemp = 0;
@@ -181,6 +191,45 @@ int roman_to_decimal(const char * numeral, int * decimal) {
 	//manipulated as need.  
 	char * ntemp = (char*)malloc(sizeof(char) * (strlen(numeral)+1));
 	memcpy(ntemp, numeral, strlen(numeral)+1);
+	
+	//Ensure that the characters of the input string are valid.  
+	//Lowercase correct letters are accepted and converted to 
+	//uppercase.  
+	for(int i=0; i<strlen(ntemp); i++) {
+		
+		//Force conversion to uppercase.
+		ntemp[i] = toupper(ntemp[i]);
+		
+		//Checks if the letter is one of the accepted Roman symbols.
+		if(ntemp[i] < 'C' || ntemp[i] > 'X') {
+			
+			//Invalid Roman numeral, exit.  
+			free(ntemp);
+			return 1;
+		}
+		else {
+		
+			//Check character against list of Roman symbols.  While 
+			//this is a double-nested loop, both loops are small. 
+			bool validChar = false;
+			for(int j=0; j<num_symbol; j++) {
+			
+				if(ntemp[i] == roman_symbol[j]) {
+					//Found valid character, exit loop.  
+					validChar = true;
+					break;
+				}
+			}
+			
+			//Current character in string is not a valid Roman numeral 
+			//symbol.  Return a "1" for conversion failure.  
+			if(!validChar) {
+			
+				free(ntemp);
+				return 1;
+			}
+		}
+	}
 	 
 	//If the numeral string is preceeded by M's, these represent 
 	//values of 1000.  There should be 3 maximum.  
