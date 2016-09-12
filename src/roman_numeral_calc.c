@@ -22,7 +22,12 @@ static const char roman_symbol[] = {'M','D','C','L','X','V','I'};
 static const int decimal_symbol[] = {1000, 500, 100, 50, 10, 5, 1};
 static const int num_symbol = 7;
 
-/* Convert decimal numbers (1-3999) to Roman numerals.  The function writes to a C string provided by the caller.  The array must be large enough to store the characters of the numerals and the null-terminating character.  A '0' value is returned if the conversion was successful.  A '1' value is returned if the conversion fails due to invalid input. */
+/* Convert decimal numbers (1-3999) to Roman numerals.  The function 
+writes to a C string provided by the caller.  The array must be large 
+enough to store the characters of the numerals and the null-
+terminating character.  A '0' value is returned if the conversion was 
+successful.  A '1' value is returned if the conversion fails due to 
+invalid input. */
 int decimal_to_roman(const int decimal, char * numeral) {
 
 	//First check if number is within the accepted range. 
@@ -169,7 +174,12 @@ int decimal_to_roman(const int decimal, char * numeral) {
 	return 0;
 }
 
-/* Convert Roman numerals to decimal numbers in the range 1-3999.  The function is passed a C string containing the Roman numerals to convert and a pointer to the integer variable that will receive the converted decimal value.  A '0' value is returned if the conversion was successful.  A '1' value is returned if the conversion fails due to invalid input. */
+/* Convert Roman numerals to decimal numbers in the range 1-3999.  The 
+function is passed a C string containing the Roman numerals to convert 
+and a pointer to the integer variable that will receive the converted 
+decimal value.  A '0' value is returned if the conversion was 
+successful.  A '1' value is returned if the conversion fails due to 
+invalid input. */
 int roman_to_decimal(const char * numeral, int * decimal) {
 
 	//Ensure that numeral string is not null.
@@ -281,7 +291,8 @@ int roman_to_decimal(const char * numeral, int * decimal) {
 		int val4 = 4 * dplace;
 		int val1 = dplace;
 	
-		//Roman numeral strings that correspond to the above decimal values.  All are null-terimated c strings.  
+		//Roman numeral strings that correspond to the above decimal 
+		//values.  All are null-terimated c strings.  
 		char numstr9[] = {'\0', '\0', '\0'};
 		numstr9[0] = roman_symbol[symbol_iter];
 		numstr9[1] = roman_symbol[symbol_iter-2];
@@ -326,9 +337,9 @@ int roman_to_decimal(const char * numeral, int * decimal) {
 				dtemp += val5;
 		
 				//Shift the characters of the string so the first is 
-				//dropped off.  The null terminating character is copied 
-				//over as well, so the string's length is correctly 
-				//shortened.  
+				//dropped off.  The null terminating character is 
+				//copied over as well, so the string's length is 
+				//correctly shortened.  
 				memmove(ntemp, ntemp+1, strlen(ntemp));
 			}
 			else if(strstr(ntemp, numstr4) == ntemp) {
@@ -396,7 +407,13 @@ int roman_to_decimal(const char * numeral, int * decimal) {
 	return 0;
 }
 
-/* Add two Roman numerals.  The addition is performed by converting both Roman numeral operands to decimal, adding the decimal numbers, and then converting the result to Roman numerals.  All strings should be pre-allocated.  The sum must be less than or equal to 3999 for the addition to succeed. A '0' value is returned if the addition succeeds.  A '1' value is returned if the addition fails, either due to a failed conversion or the sum is too large.  */
+/* Add two Roman numerals.  The addition is performed by converting 
+both Roman numeral operands to decimal, adding the decimal numbers, 
+and then converting the result to Roman numerals.  All strings should 
+be pre-allocated.  The sum must be less than or equal to 3999 for the 
+addition to succeed. A '0' value is returned if the addition 
+succeeds.  A '1' value is returned if the addition fails, either due 
+to a failed conversion or the sum is too large.  */
 int roman_addition(const char * numeral_a, const char * numeral_b, char * numeral_sum) {
 
 	//Check for null strings
@@ -438,7 +455,14 @@ int roman_addition(const char * numeral_a, const char * numeral_b, char * numera
 	return 0;
 }
 
-/* Subtract two Roman numerals.  The subtraction is performed by converting both Roman numeral operands to decimal, subtracting the decimal numbers, and then converting the result to Roman numerals.  All strings should be pre-allocated.  The difference must be greater than or equal to 1 for the subtraction to succeed. A '0' value is returned if the subtraction succeeds.  A '1' value is returned if the subtraction fails, either due to a failed conversion or the difference is too small.  */
+/* Subtract two Roman numerals.  The subtraction is performed by 
+converting both Roman numeral operands to decimal, subtracting the 
+decimal numbers, and then converting the result to Roman numerals.  
+All strings should be pre-allocated.  The difference must be greater 
+than or equal to 1 for the subtraction to succeed. A '0' value is 
+returned if the subtraction succeeds.  A '1' value is returned if the 
+subtraction fails, either due to a failed conversion or the difference 
+is too small.  */
 int roman_subtraction(const char * numeral_a, const char * numeral_b, char * numeral_diff) {
 
 	//Check for null strings
@@ -480,6 +504,3 @@ int roman_subtraction(const char * numeral_a, const char * numeral_b, char * num
 
 	return 0;
 }
-
-
-

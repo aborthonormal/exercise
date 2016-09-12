@@ -4,8 +4,8 @@ test_roman_calc.c
 Andrew Howard - 2016
 
 Program used to test functions of the Roman numeral calculator library, libromancalc.  
-This program uses the Check library, libcheck, to run a series of tests on the 
-functions for conversion, addition, and subtraction.  
+
+This program uses the Check library, libcheck, to run a series of tests on the functions for conversion, addition, and subtraction.  
 
 */
 
@@ -26,8 +26,8 @@ START_TEST(convert_decimal_to_roman_test) {
 	char * numeral = (char*)malloc(sizeof(char) * (strlen(MAX_LENGTH_ROMAN)+1));
 	memset(numeral, 0, strlen(MAX_LENGTH_ROMAN)+1);
 
-
-	//Check that the conversion function returns the correct flag when proper and improper input is provided.  
+	//Check that the conversion function returns the correct flag when 
+	//proper and improper input is provided.  
 	
 	//correct input
 	int flag = decimal_to_roman(1, numeral);
@@ -42,7 +42,6 @@ START_TEST(convert_decimal_to_roman_test) {
 
 	flag = decimal_to_roman(1, NULL);
 	ck_assert_int_eq(flag, 1);
-
 
 	//Check if various conversions from decimal to Roman numerals work.
 
@@ -129,7 +128,6 @@ START_TEST(convert_decimal_to_roman_test) {
 	//2900 -> MMCM
 	decimal_to_roman(2900, numeral);
 	ck_assert_str_eq(numeral, "MMCM");
-
 
 	//Free memory assigned to "numeral"
 	free(numeral);
@@ -274,7 +272,9 @@ START_TEST(convert_roman_to_decimal_test) {
 }
 END_TEST
 
-/* Test both the decimal_to_roman() and roman_to_decimal() functions by converting all integers 1-3999 to Roman numerals, then back to decimal, and then comparing the results to the inputs. */
+/* Test both the decimal_to_roman() and roman_to_decimal() functions 
+by converting all integers 1-3999 to Roman numerals, then back to 
+decimal, and then comparing the results to the inputs. */
 START_TEST(double_conversion_test) {
 
 	//String used for Roman numeral.  
@@ -300,7 +300,12 @@ START_TEST(double_conversion_test) {
 }
 END_TEST
 
-/* Test the roman_addition() function.  Whole numbers that sum up to anywhere within 2-3999 are converted to Roman numerals, those are passed to the addition function, the resulting roman numeral is converted back to decimal, and the result is compared.  Thorough testing of the conversion functions allows us to conduct this test with confidence.  */
+/* Test the roman_addition() function.  Whole numbers that sum up to 
+anywhere within 2-3999 are converted to Roman numerals, those are 
+passed to the addition function, the resulting roman numeral is 
+converted back to decimal, and the result is compared.  Thorough 
+testing of the conversion functions allows us to conduct this test 
+with confidence.  */
 START_TEST(roman_addition_test) {
 
 	//Strings used for additions
@@ -354,7 +359,12 @@ START_TEST(roman_addition_test) {
 }
 END_TEST
 
-/* Test the roman_subtraction() function.  Whole numbers that have a difference anywhere within 2-3998 are converted to Roman numerals, those are passed to the subtraction function, the resulting roman numeral is converted back to decimal, and the result is compared.  Thorough testing of the conversion functions allows us to conduct this test with confidence.  */
+/* Test the roman_subtraction() function.  Whole numbers that have a 
+difference anywhere within 2-3998 are converted to Roman numerals, 
+those are passed to the subtraction function, the resulting roman 
+numeral is converted back to decimal, and the result is compared.  
+Thorough testing of the conversion functions allows us to conduct this 
+test with confidence.  */
 START_TEST(roman_subtraction_test) {
 
 	//Strings used for subtractions
@@ -407,8 +417,8 @@ START_TEST(roman_subtraction_test) {
 }
 END_TEST
 
-/* This function creates the test Suite structure, with the test cases added to it.  
-The test suite is then run within the main function.  */
+/* This function creates the test Suite structure, with the test cases 
+added to it.  The test suite is then run within the main function.  */
 static Suite *create_test_suite(void) {
 
 	//Suite struct
@@ -446,7 +456,9 @@ static Suite *create_test_suite(void) {
 	return s;
 }
 
-/* As a test program, the main function will simply run the test suite, which consists of a main test case and the small tests for the calculator's functions.  */
+/* As a test program, the main function will simply run the test 
+suite, which consists of a main test case and the tests for the 
+calculator's functions.  */
 int main(void) {
 
 	//Count the number of tests failed.  

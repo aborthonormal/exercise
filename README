@@ -1,0 +1,100 @@
+Andrew Howard - 2016
+
+----------------
+BASIC INFORMATION
+----------------
+
+Included in this repository is my solution to the Kata exercise for creating a Roman Numeral Calculator.  The exercise calls for creating a C library that supports the addition and subtraction of Roman numeral numbers, which have decimal values in the range 1-3999.  Test Driven Development (TDD) is required, which involves an interative style to development that follows cycles of (i) creating a test, (ii) writing code to pass the test, and then (iii) refactoring code as appropriate.  The Check testing framework (libcheck) was utilized to create several extensive tests of the calculator library's functions.  
+
+----------------
+LIBRARY DESCRIPTION
+----------------
+
+The static library, "libromancalc", consists of four functions:
+
+i) int decimal_to_roman(const int decimal, char * numeral)
+	>> Converts a decimal integer to a Roman numeral string.  
+
+ii) int roman_to_decimal(const char * numeral, int * decimal)
+	>> Converts a Roman numeral string to a decimal integer. 
+
+iii) int roman_addition(const char * numeral_a, const char * numeral_b, char * numeral_sum)
+	>> Adds two Roman numerals, producing a Roman numeral sum.  
+
+iv) int roman_subtraction(const char * numeral_a, const char * numeral_b, char * numeral_diff)
+	>> Subtracts two Roman numerals, producing a Roman numeral difference.  
+	
+More detailed descriptions of the functions can be found within "roman_numeral_calc.h"
+
+When compiled and archived, the static library is generated as "libromancalc.a" and stored within the "util" directory.  
+
+----------------
+DIRECTORY STRUCTURE
+----------------
+
+Before build:
+.
+├── README
+├── include
+│   └── roman_numeral_calc.h
+├── makefile
+├── src
+│   └── roman_numeral_calc.c
+├── test_roman_calc.c
+└── util
+    └── makefile
+
+After build:
+
+.
+├── README
+├── include
+│   └── roman_numeral_calc.h
+├── makefile
+├── src
+│   └── roman_numeral_calc.c
+├── test_roman_calc
+├── test_roman_calc.c
+├── test_roman_calc.o
+└── util
+    ├── libromancalc.a
+    ├── makefile
+    └── roman_numeral_calc.o
+
+----------------
+BUILD ENVIRONMENT
+----------------
+
+Ubuntu 14.04
+gcc:  4:4.8.2-1ubuntu6
+make:  3.81-8.2ubuntu3
+check:  0.9.10-6ubuntu3
+git:  1:1.9.1-1ubuntu0.3
+
+----------------
+BUILD & EXECUTE INSTRUCTIONS
+----------------
+
+To build, simply run "make" within the base directory.  If any changes are made to the source file of the library, "make clean" must be ran before rebuilding.  
+
+To execute the test program, enter the following within the base directory:
+
+./test_roman_calc
+
+----------------
+BUILD & EXECUTE EXAMPLE
+----------------
+
+andrew@andrew-ubuntu-desktop:~/prog/kata$ make
+cd util; make
+make[1]: Entering directory `/home/andrew/prog/kata/util'
+gcc -Wall -c -std=c99 -fPIC ../src/roman_numeral_calc.c -I../include/ -I../src/
+ar -cvq libromancalc.a roman_numeral_calc.o
+a - roman_numeral_calc.o
+make[1]: Leaving directory `/home/andrew/prog/kata/util'
+gcc -c -std=c99 test_roman_calc.c -Iinclude/
+gcc -o test_roman_calc test_roman_calc.o -Lutil -lromancalc -lcheck -lpthread -lm -lrt
+andrew@andrew-ubuntu-desktop:~/prog/kata$ ./test_roman_calc 
+Running suite(s): Roman Calc Test Suite
+100%: Checks: 5, Failures: 0, Errors: 0
+andrew@andrew-ubuntu-desktop:~/prog/kata$
