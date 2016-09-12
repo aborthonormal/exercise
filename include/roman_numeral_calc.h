@@ -8,9 +8,10 @@ Header file for the Roman numeral calculator library, libromancalc.
 #ifndef ROMAN_NUMERAL_CALC_H
 #define ROMAN_NUMERAL_CALC_H
 
-//Constants for minimum and maximum Roman numerals and decimal numbers. 
-#define MAX_ROMAN "MMMCMXCIX"
-#define MIN_ROMAN "I"
+/* Constants for minimum and maximum Roman numerals and decimal numbers.  The longest Roman numeral string is not the same as the largest valued Roman numeral string. */
+#define MAX_LENGTH_ROMAN "MMMDCCCLXXXVIII"
+#define MAX_VALUE_ROMAN "MMMCMXCIX"
+#define MIN_VALUE_ROMAN "I"
 #define MAX_DECIMAL 3999
 #define MIN_DECIMAL 1
 

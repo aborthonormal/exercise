@@ -41,8 +41,8 @@ int decimal_to_roman(const int decimal, char * numeral) {
 	memset(numeral, 0, strlen(numeral));
 
 	//Generate buffer string used when generating Roman numerals.  
-	char * buffer = (char*)malloc(sizeof(char) + (strlen(MAX_ROMAN)+1));
-	memset(buffer, 0, (strlen(MAX_ROMAN)+1));
+	char * buffer = (char*)malloc(sizeof(char) + (strlen(MAX_LENGTH_ROMAN)+1));
+	memset(buffer, 0, (strlen(MAX_LENGTH_ROMAN)+1));
 
 	//Temporary integer to store value of remaining decimal number 
 	//as Roman numerals are added to the string.  

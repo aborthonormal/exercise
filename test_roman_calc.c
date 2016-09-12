@@ -21,8 +21,8 @@ START_TEST(convert_decimal_to_roman_test) {
 
 	//Allocate the C string "numeral" to store the results of the 
 	//conversion function.  
-	char * numeral = (char*)malloc(sizeof(char) * (strlen(MAX_ROMAN)+1));
-	memset(numeral, 0, strlen(MAX_ROMAN)+1);
+	char * numeral = (char*)malloc(sizeof(char) * (strlen(MAX_LENGTH_ROMAN)+1));
+	memset(numeral, 0, strlen(MAX_LENGTH_ROMAN)+1);
 
 
 	//Check that the conversion function returns the correct flag when proper and improper input is provided.  
@@ -87,6 +87,14 @@ START_TEST(convert_decimal_to_roman_test) {
 	//100 -> C
 	decimal_to_roman(100, numeral);
 	ck_assert_str_eq(numeral, "C");
+	
+	//287 -> CCLXXXVII
+	decimal_to_roman(287, numeral);
+	ck_assert_str_eq(numeral, "CCLXXXVII");
+	
+	//288 -> CCLXXXVIII
+	decimal_to_roman(288, numeral);
+	ck_assert_str_eq(numeral, "CCLXXXVIII");
 	
 	//300 -> CCC
 	decimal_to_roman(300, numeral);
@@ -191,6 +199,14 @@ START_TEST(convert_roman_to_decimal_test) {
 	roman_to_decimal("CCC", &decimal);
 	ck_assert_int_eq(decimal, 300);
 	
+	//CCLXXXVII -> 287
+	roman_to_decimal("CCLXXXVII", &decimal);
+	ck_assert_int_eq(decimal, 287);
+	
+	//CCLXXXVIII -> 288
+	roman_to_decimal("CCLXXXVIII", &decimal);
+	ck_assert_int_eq(decimal, 288);
+	
 	//CD -> 400
 	roman_to_decimal("CD", &decimal);
 	ck_assert_int_eq(decimal, 400);
@@ -256,6 +272,37 @@ START_TEST(convert_roman_to_decimal_test) {
 }
 END_TEST
 
+/* Test both the decimal_to_roman() and roman_to_decimal() functions by converting all integers 1-3999 to Roman numerals, then back to decimal, and then comparing the results to the inputs. */
+START_TEST(double_conversion_test) {
+
+	//String used for Roman numeral.  
+	char * numeral = (char*)malloc(sizeof(char) * (strlen(MAX_LENGTH_ROMAN)+1));
+	memset(numeral, 0, strlen(MAX_LENGTH_ROMAN)+1);
+
+	//Integer used for result of roman_to_decimal() conversion.  
+	int decimal;
+
+	//Check every integer from 1-3999.
+	for(int i=0; i<4000; i++) {
+	
+		//Convert from decimal to Roman numeral and then back again. 
+		decimal_to_roman(i, numeral);
+		
+		//printf("%d -> %s\n", i, numeral);
+		
+		roman_to_decimal(numeral, &decimal);
+		
+		//printf("%d -> %s\n", decimal, numeral);
+		
+		//Two numbers should be equal.  
+		ck_assert_int_eq(decimal, i);
+	}
+	
+	//Free memory of string.  
+	free(numeral);
+}
+END_TEST
+
 /* This function creates the test Suite structure, with the test cases added to it.  
 The test suite is then run within the main function.  */
 static Suite *create_test_suite(void) {
@@ -278,6 +325,9 @@ static Suite *create_test_suite(void) {
 	
 	//Add the test for Roman to decimal conversion to the test case.  
 	tcase_add_test(tc_core, convert_roman_to_decimal_test);
+
+	//Add the test for double conversion to the test case.  
+	tcase_add_test(tc_core, double_conversion_test);
 
 	//Add the test case to the tese suite.  
 	suite_add_tcase(s, tc_core);
