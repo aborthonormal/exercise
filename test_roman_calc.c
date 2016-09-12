@@ -143,6 +143,30 @@ START_TEST(convert_roman_to_decimal_test) {
 	roman_to_decimal("IV", &decimal);
 	ck_assert_int_eq(decimal, 4);
 	
+	//X -> 10
+	roman_to_decimal("X", &decimal);
+	ck_assert_int_eq(decimal, 10);
+	
+	//XXX -> 30
+	roman_to_decimal("XXX", &decimal);
+	ck_assert_int_eq(decimal, 30);
+	
+	//XL -> 40
+	roman_to_decimal("XL", &decimal);
+	ck_assert_int_eq(decimal, 40);
+	
+	//L -> 50
+	roman_to_decimal("L", &decimal);
+	ck_assert_int_eq(decimal, 50);
+	
+	//LXXX -> 80
+	roman_to_decimal("LXXX", &decimal);
+	ck_assert_int_eq(decimal, 80);
+	
+	//XC -> 90
+	roman_to_decimal("XC", &decimal);
+	ck_assert_int_eq(decimal, 90);
+	
 	//C -> 100
 	roman_to_decimal("C", &decimal);
 	ck_assert_int_eq(decimal, 100);
