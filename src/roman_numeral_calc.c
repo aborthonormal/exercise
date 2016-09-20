@@ -46,8 +46,7 @@ int decimal_to_roman(const int decimal, char * numeral) {
 	memset(numeral, 0, strlen(numeral));
 
 	//Generate buffer string used when generating Roman numerals.  
-	char * buffer = (char*)malloc(sizeof(char) + (strlen(MAX_LENGTH_ROMAN)+1));
-	memset(buffer, 0, (strlen(MAX_LENGTH_ROMAN)+1));
+	char * buffer = allocate_roman_numeral_string();
 
 	//Temporary integer to store value of remaining decimal number 
 	//as Roman numerals are added to the string.  
@@ -504,3 +503,15 @@ int roman_subtraction(const char * numeral_a, const char * numeral_b, char * num
 
 	return 0;
 }
+
+/* Allocates a C-style string to store Roman numerals.  See header 
+file for more detailed description. */
+char * allocate_roman_numeral_string() {
+
+	//Allocate the string, set contents to zero, and return pointer. 
+	char * temp_string = (char*)malloc(sizeof(char) + (strlen(MAX_LENGTH_ROMAN)+1));
+	memset(temp_string, 0, (strlen(MAX_LENGTH_ROMAN)+1));
+
+	return temp_string;
+}
+

@@ -23,8 +23,7 @@ START_TEST(convert_decimal_to_roman_test) {
 
 	//Allocate the C string "numeral" to store the results of the 
 	//conversion function.  
-	char * numeral = (char*)malloc(sizeof(char) * (strlen(MAX_LENGTH_ROMAN)+1));
-	memset(numeral, 0, strlen(MAX_LENGTH_ROMAN)+1);
+	char * numeral = allocate_roman_numeral_string();
 
 	//Check that the conversion function returns the correct flag when 
 	//proper and improper input is provided.  
@@ -278,8 +277,7 @@ decimal, and then comparing the results to the inputs. */
 START_TEST(double_conversion_test) {
 
 	//String used for Roman numeral.  
-	char * numeral = (char*)malloc(sizeof(char) * (strlen(MAX_LENGTH_ROMAN)+1));
-	memset(numeral, 0, strlen(MAX_LENGTH_ROMAN)+1);
+	char * numeral = allocate_roman_numeral_string();
 
 	//Integer used for result of roman_to_decimal() conversion.  
 	int decimal;
@@ -310,17 +308,14 @@ START_TEST(roman_addition_test) {
 
 	//Strings used for additions
 	//First Roman numeral
-	char * numeral_a = (char*)malloc(sizeof(char) * (strlen(MAX_LENGTH_ROMAN)+1));
-	memset(numeral_a, 0, strlen(MAX_LENGTH_ROMAN)+1);
+	char * numeral_a = allocate_roman_numeral_string();
 	
 	//Second Roman numeral
-	char * numeral_b = (char*)malloc(sizeof(char) * (strlen(MAX_LENGTH_ROMAN)+1));
-	memset(numeral_b, 0, strlen(MAX_LENGTH_ROMAN)+1);
+	char * numeral_b = allocate_roman_numeral_string();
 	
 	//Roman numeral sum
-	char * numeral_sum = (char*)malloc(sizeof(char) * (strlen(MAX_LENGTH_ROMAN)+1));
-	memset(numeral_sum, 0, strlen(MAX_LENGTH_ROMAN)+1);
-
+	char * numeral_sum = allocate_roman_numeral_string();
+	
 	//Integers for addition operands.  
 	int a, b;
 
@@ -369,16 +364,13 @@ START_TEST(roman_subtraction_test) {
 
 	//Strings used for subtractions
 	//First Roman numeral
-	char * numeral_a = (char*)malloc(sizeof(char) * (strlen(MAX_LENGTH_ROMAN)+1));
-	memset(numeral_a, 0, strlen(MAX_LENGTH_ROMAN)+1);
+	char * numeral_a = allocate_roman_numeral_string();
 	
 	//Second Roman numeral
-	char * numeral_b = (char*)malloc(sizeof(char) * (strlen(MAX_LENGTH_ROMAN)+1));
-	memset(numeral_b, 0, strlen(MAX_LENGTH_ROMAN)+1);
+	char * numeral_b = allocate_roman_numeral_string();
 	
 	//Roman numeral difference
-	char * numeral_diff = (char*)malloc(sizeof(char) * (strlen(MAX_LENGTH_ROMAN)+1));
-	memset(numeral_diff, 0, strlen(MAX_LENGTH_ROMAN)+1);
+	char * numeral_diff = allocate_roman_numeral_string();
 
 	//Integers for subtraction operands
 	int a, b;

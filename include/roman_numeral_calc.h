@@ -27,7 +27,6 @@ A '1' value is returned if the conversion fails due to invalid input.
 */ 
 int decimal_to_roman(const int decimal, char * numeral);
 
-
 /* Convert Roman numerals to decimal numbers in the range 1-3999.  The 
 function is passed a C string containing the Roman numerals to convert 
 and a pointer to the integer variable that will receive the converted 
@@ -54,5 +53,11 @@ if the subtraction succeeds.  A '1' value is returned if the
 subtraction fails, either due to a failed conversion or the difference 
 is too small.  */
 int roman_subtraction(const char * numeral_a, const char * numeral_b, char * numeral_diff);
+
+/* Allocates a C-style string to store Roman numerals.  The length of 
+the character array is that of MAX_LENGTH_ROMAN plus 1, which is 
+sufficient to store null-terminated strings for all Roman numerals of 
+value 1-3999.  Be sure to free the allocated memory when done.  */
+char * allocate_roman_numeral_string();
 
 #endif
