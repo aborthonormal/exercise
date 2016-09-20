@@ -25,7 +25,7 @@ enough to store the characters of the numerals and the null-terminating
 character.  A '0' value is returned if the conversion was successful.  
 A '1' value is returned if the conversion fails due to invalid input. 
 */ 
-int decimal_to_roman(const int decimal, char * numeral);
+int convert_decimal_to_roman(const int decimal, char * numeral);
 
 /* Convert Roman numerals to decimal numbers in the range 1-3999.  The 
 function is passed a C string containing the Roman numerals to convert 
@@ -33,7 +33,7 @@ and a pointer to the integer variable that will receive the converted
 decimal value.  A '0' value is returned if the conversion was 
 successful.  A '1' value is returned if the conversion fails due to 
 invalid input. */
-int roman_to_decimal(const char * numeral, int * decimal);
+int convert_roman_to_decimal(const char * numeral, int * decimal);
 
 /* Add two Roman numerals.  The addition is performed by converting 
 both Roman numeral operands to decimal, adding the decimal numbers, and 

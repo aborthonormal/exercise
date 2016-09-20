@@ -29,103 +29,103 @@ START_TEST(convert_decimal_to_roman_test) {
 	//proper and improper input is provided.  
 	
 	//correct input
-	int flag = decimal_to_roman(1, numeral);
+	int flag = convert_decimal_to_roman(1, numeral);
 	ck_assert_int_eq(flag, 0);
 
 	//incorrect inputs
-	flag = decimal_to_roman(0, numeral);
+	flag = convert_decimal_to_roman(0, numeral);
 	ck_assert_int_eq(flag, 1);
 
-	flag = decimal_to_roman(4000, numeral);
+	flag = convert_decimal_to_roman(4000, numeral);
 	ck_assert_int_eq(flag, 1);
 
-	flag = decimal_to_roman(1, NULL);
+	flag = convert_decimal_to_roman(1, NULL);
 	ck_assert_int_eq(flag, 1);
 
 	//Check if various conversions from decimal to Roman numerals work.
 
 	//1 -> I
-	decimal_to_roman(1, numeral);
+	convert_decimal_to_roman(1, numeral);
 	ck_assert_str_eq(numeral, "I");
 	
 	//3 -> III
-	decimal_to_roman(3, numeral);
+	convert_decimal_to_roman(3, numeral);
 	ck_assert_str_eq(numeral, "III");
 
 	//4 -> IV
-	decimal_to_roman(4, numeral);
+	convert_decimal_to_roman(4, numeral);
 	ck_assert_str_eq(numeral, "IV");
 	
 	//5 -> V
-	decimal_to_roman(5, numeral);
+	convert_decimal_to_roman(5, numeral);
 	ck_assert_str_eq(numeral, "V");
 	
 	//9 -> IX
-	decimal_to_roman(9, numeral);
+	convert_decimal_to_roman(9, numeral);
 	ck_assert_str_eq(numeral, "IX");
 	
 	//10 -> X
-	decimal_to_roman(10, numeral);
+	convert_decimal_to_roman(10, numeral);
 	ck_assert_str_eq(numeral, "X");
 	
 	//30 -> XXX
-	decimal_to_roman(30, numeral);
+	convert_decimal_to_roman(30, numeral);
 	ck_assert_str_eq(numeral, "XXX");
 	
 	//40 -> XL
-	decimal_to_roman(40, numeral);
+	convert_decimal_to_roman(40, numeral);
 	ck_assert_str_eq(numeral, "XL");
 	
 	//50 -> L
-	decimal_to_roman(50, numeral);
+	convert_decimal_to_roman(50, numeral);
 	ck_assert_str_eq(numeral, "L");
 	
 	//80 -> LXXX
-	decimal_to_roman(80, numeral);
+	convert_decimal_to_roman(80, numeral);
 	ck_assert_str_eq(numeral, "LXXX");
 	
 	//100 -> C
-	decimal_to_roman(100, numeral);
+	convert_decimal_to_roman(100, numeral);
 	ck_assert_str_eq(numeral, "C");
 	
 	//287 -> CCLXXXVII
-	decimal_to_roman(287, numeral);
+	convert_decimal_to_roman(287, numeral);
 	ck_assert_str_eq(numeral, "CCLXXXVII");
 	
 	//288 -> CCLXXXVIII
-	decimal_to_roman(288, numeral);
+	convert_decimal_to_roman(288, numeral);
 	ck_assert_str_eq(numeral, "CCLXXXVIII");
 	
 	//300 -> CCC
-	decimal_to_roman(300, numeral);
+	convert_decimal_to_roman(300, numeral);
 	ck_assert_str_eq(numeral, "CCC");
 	
 	//400 -> CD
-	decimal_to_roman(400, numeral);
+	convert_decimal_to_roman(400, numeral);
 	ck_assert_str_eq(numeral, "CD");
 	
 	//500 -> D
-	decimal_to_roman(500, numeral);
+	convert_decimal_to_roman(500, numeral);
 	ck_assert_str_eq(numeral, "D");
 	
 	//800 -> DCCC
-	decimal_to_roman(800, numeral);
+	convert_decimal_to_roman(800, numeral);
 	ck_assert_str_eq(numeral, "DCCC");
 
 	//1000 -> M
-	decimal_to_roman(1000, numeral);
+	convert_decimal_to_roman(1000, numeral);
 	ck_assert_str_eq(numeral, "M");
 
 	//3000 -> MMM
-	decimal_to_roman(3000, numeral);
+	convert_decimal_to_roman(3000, numeral);
 	ck_assert_str_eq(numeral, "MMM");
 
 	//900 -> CM
-	decimal_to_roman(900, numeral);
+	convert_decimal_to_roman(900, numeral);
 	ck_assert_str_eq(numeral, "CM");
 
 	//2900 -> MMCM
-	decimal_to_roman(2900, numeral);
+	convert_decimal_to_roman(2900, numeral);
 	ck_assert_str_eq(numeral, "MMCM");
 
 	//Free memory assigned to "numeral"
@@ -143,135 +143,135 @@ START_TEST(convert_roman_to_decimal_test) {
 	//numbers work.
 	
 	//I -> 1
-	roman_to_decimal("I", &decimal);
+	convert_roman_to_decimal("I", &decimal);
 	ck_assert_int_eq(decimal, 1);
 	
 	//III -> 3
-	roman_to_decimal("III", &decimal);
+	convert_roman_to_decimal("III", &decimal);
 	ck_assert_int_eq(decimal, 3);
 	
 	//IV -> 4
-	roman_to_decimal("IV", &decimal);
+	convert_roman_to_decimal("IV", &decimal);
 	ck_assert_int_eq(decimal, 4);
 	
 	//V -> 5
-	roman_to_decimal("V", &decimal);
+	convert_roman_to_decimal("V", &decimal);
 	ck_assert_int_eq(decimal, 5);
 	
 	//VIII -> 8
-	roman_to_decimal("VIII", &decimal);
+	convert_roman_to_decimal("VIII", &decimal);
 	ck_assert_int_eq(decimal, 8);
 	
 	//IX -> 9
-	roman_to_decimal("IX", &decimal);
+	convert_roman_to_decimal("IX", &decimal);
 	ck_assert_int_eq(decimal, 9);
 	
 	//X -> 10
-	roman_to_decimal("X", &decimal);
+	convert_roman_to_decimal("X", &decimal);
 	ck_assert_int_eq(decimal, 10);
 	
 	//XXX -> 30
-	roman_to_decimal("XXX", &decimal);
+	convert_roman_to_decimal("XXX", &decimal);
 	ck_assert_int_eq(decimal, 30);
 	
 	//XL -> 40
-	roman_to_decimal("XL", &decimal);
+	convert_roman_to_decimal("XL", &decimal);
 	ck_assert_int_eq(decimal, 40);
 	
 	//L -> 50
-	roman_to_decimal("L", &decimal);
+	convert_roman_to_decimal("L", &decimal);
 	ck_assert_int_eq(decimal, 50);
 	
 	//LXXX -> 80
-	roman_to_decimal("LXXX", &decimal);
+	convert_roman_to_decimal("LXXX", &decimal);
 	ck_assert_int_eq(decimal, 80);
 	
 	//XC -> 90
-	roman_to_decimal("XC", &decimal);
+	convert_roman_to_decimal("XC", &decimal);
 	ck_assert_int_eq(decimal, 90);
 	
 	//C -> 100
-	roman_to_decimal("C", &decimal);
+	convert_roman_to_decimal("C", &decimal);
 	ck_assert_int_eq(decimal, 100);
 	
 	//CCC -> 300
-	roman_to_decimal("CCC", &decimal);
+	convert_roman_to_decimal("CCC", &decimal);
 	ck_assert_int_eq(decimal, 300);
 	
 	//CCLXXXVII -> 287
-	roman_to_decimal("CCLXXXVII", &decimal);
+	convert_roman_to_decimal("CCLXXXVII", &decimal);
 	ck_assert_int_eq(decimal, 287);
 	
 	//CCLXXXVIII -> 288
-	roman_to_decimal("CCLXXXVIII", &decimal);
+	convert_roman_to_decimal("CCLXXXVIII", &decimal);
 	ck_assert_int_eq(decimal, 288);
 	
 	//CD -> 400
-	roman_to_decimal("CD", &decimal);
+	convert_roman_to_decimal("CD", &decimal);
 	ck_assert_int_eq(decimal, 400);
 	
 	//D -> 500
-	roman_to_decimal("D", &decimal);
+	convert_roman_to_decimal("D", &decimal);
 	ck_assert_int_eq(decimal, 500);
 	
 	//DCCC -> 800
-	roman_to_decimal("DCCC", &decimal);
+	convert_roman_to_decimal("DCCC", &decimal);
 	ck_assert_int_eq(decimal, 800);
 	
 	//CM -> 900
-	roman_to_decimal("CM", &decimal);
+	convert_roman_to_decimal("CM", &decimal);
 	ck_assert_int_eq(decimal, 900);
 	
 	//M -> 1000
-	roman_to_decimal("M", &decimal);
+	convert_roman_to_decimal("M", &decimal);
 	ck_assert_int_eq(decimal, 1000);
 	
 	//MCM -> 1900
-	roman_to_decimal("MCM", &decimal);
+	convert_roman_to_decimal("MCM", &decimal);
 	ck_assert_int_eq(decimal, 1900);
 	
 	//MMCM -> 2900
-	roman_to_decimal("MMCM", &decimal);
+	convert_roman_to_decimal("MMCM", &decimal);
 	ck_assert_int_eq(decimal, 2900);
 	
 	//MMM -> 3000
-	roman_to_decimal("MMM", &decimal);
+	convert_roman_to_decimal("MMM", &decimal);
 	ck_assert_int_eq(decimal, 3000);
 	
 	//MMMCM -> 3900
-	roman_to_decimal("MMMCM", &decimal);
+	convert_roman_to_decimal("MMMCM", &decimal);
 	ck_assert_int_eq(decimal, 3900);
 	
 	//Test if input Roman numeral string is valid.  
 	int flag = 0;
 	
 	//Correct input
-	flag = roman_to_decimal("MMMCM", &decimal);
+	flag = convert_roman_to_decimal("MMMCM", &decimal);
 	ck_assert_int_eq(flag, 0);
 	
 	//Incorrect input
-	flag = roman_to_decimal("MMMIICM", &decimal);
+	flag = convert_roman_to_decimal("MMMIICM", &decimal);
 	ck_assert_int_eq(flag, 1);
 	
 	//Incorrect input
-	flag = roman_to_decimal("IIII", &decimal);
+	flag = convert_roman_to_decimal("IIII", &decimal);
 	ck_assert_int_eq(flag, 1);
 	
 	//Incorrect input
-	flag = roman_to_decimal("absC", &decimal);
+	flag = convert_roman_to_decimal("absC", &decimal);
 	ck_assert_int_eq(flag, 1);
 
 	//Incorrect input
-	flag = roman_to_decimal(NULL, &decimal);
+	flag = convert_roman_to_decimal(NULL, &decimal);
 	ck_assert_int_eq(flag, 1);
 	
 	//Incorrect input
-	flag = roman_to_decimal("IV", NULL);
+	flag = convert_roman_to_decimal("IV", NULL);
 	ck_assert_int_eq(flag, 1);	
 }
 END_TEST
 
-/* Test both the decimal_to_roman() and roman_to_decimal() functions 
+/* Test both the convert_decimal_to_roman() and convert_roman_to_decimal() functions 
 by converting all integers 1-3999 to Roman numerals, then back to 
 decimal, and then comparing the results to the inputs. */
 START_TEST(double_conversion_test) {
@@ -279,15 +279,15 @@ START_TEST(double_conversion_test) {
 	//String used for Roman numeral.  
 	char * numeral = allocate_roman_numeral_string();
 
-	//Integer used for result of roman_to_decimal() conversion.  
+	//Integer used for result of convert_roman_to_decimal() conversion.  
 	int decimal;
 
 	//Check every integer from 1-3999.
 	for(int i=0; i <= MAX_DECIMAL; i++) {
 	
 		//Convert from decimal to Roman numeral and then back again. 
-		decimal_to_roman(i, numeral);		
-		roman_to_decimal(numeral, &decimal);
+		convert_decimal_to_roman(i, numeral);		
+		convert_roman_to_decimal(numeral, &decimal);
 		
 		//Two numbers should be equal.  
 		ck_assert_int_eq(decimal, i);
@@ -338,15 +338,15 @@ START_TEST(roman_addition_test) {
 		b = (rand() % (MAX_DECIMAL-a)) + 1;
 
 		//Convert operands to Roman numerals.  
-		decimal_to_roman(a, numeral_a);
-		decimal_to_roman(b, numeral_b);
+		convert_decimal_to_roman(a, numeral_a);
+		convert_decimal_to_roman(b, numeral_b);
 	
 		//Add Roman numerals, check flag for failure.  
 		flag = roman_addition(numeral_a, numeral_b, numeral_sum);
 		ck_assert_int_eq(flag, 0);
 	
 		//Convert Roman numeral sum to decimal.  
-		roman_to_decimal(numeral_sum, &decimal);
+		convert_roman_to_decimal(numeral_sum, &decimal);
 
 		//Compare the result to the inputs.  
 		ck_assert_int_eq(decimal, (a+b));
@@ -393,15 +393,15 @@ START_TEST(roman_subtraction_test) {
 		b = (rand() % (a-1)) + 1; //1 to (a-1)
 
 		//Convert operands to Roman numerals.  
-		decimal_to_roman(a, numeral_a);
-		decimal_to_roman(b, numeral_b);
+		convert_decimal_to_roman(a, numeral_a);
+		convert_decimal_to_roman(b, numeral_b);
 	
 		//Subtract Roman numerals, check flag for failure.  
 		flag = roman_subtraction(numeral_a, numeral_b, numeral_diff);
 		ck_assert_int_eq(flag, 0);
 	
 		//Convert Roman numeral difference to decimal.  
-		roman_to_decimal(numeral_diff, &decimal);
+		convert_roman_to_decimal(numeral_diff, &decimal);
 
 		//Compare the result to the inputs.  
 		ck_assert_int_eq(decimal, (a-b));
