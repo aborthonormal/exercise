@@ -175,6 +175,7 @@ int convert_roman_to_decimal(const char * numeral, int * decimal) {
 
 	//Ensure pointers are not null.  
 	if(numeral == NULL || decimal == NULL) {
+	
 		//Invalid input, conversion fails.  
 		return 1;
 	}
@@ -200,7 +201,7 @@ int convert_roman_to_decimal(const char * numeral, int * decimal) {
 		
 		//Pointer is null if character not found within roman_symbol.
 		if(location_ptr == NULL) {
-		
+	
 			//Invalid Roman numeral, exit with failure flag.  
 			free(numeral_temp);
 			return 1;
@@ -221,66 +222,64 @@ int convert_roman_to_decimal(const char * numeral, int * decimal) {
 	int count=0;
 	while(strchr(numeral_temp,'M') == numeral_temp) {
 	
-		decimal_temp += 1000;
 		count++;
+	
+		decimal_temp += 1000;
 		
-		//Cut off first character of numeral string.  
 		shift_string_left(numeral_temp, 1);
 		
 		//Check for more than 3 M's in a row.    
 		if(count > 3) {
-		
+	
 			//Incorrectly formated Roman numeral, return. 
 			free(numeral_temp);
 			return 1;
 		}
 	}
 	
-	//For each decimal place from the 100's to the 1's, search for the 
-	//Roman numerals that represent the respective values of 9, 5, 4, 
-	//and 1.  "symbol_iter" starts at 2 because that is the 
+	//For each decimal place from the 100's to the 1's, search for 
+	//the Roman numerals that represent the respective values of 9, 
+	//5, 4, and 1.  "symbol_iter" starts at 2 because that is the 
 	//index for the 100s decimal value and Roman numeral symbol C.  
 	for(int symbol_iter=2; symbol_iter < num_symbol; symbol_iter+=2) {
 	
-		//decimal value that represents the decimal place
-		int dplace = decimal_symbol[symbol_iter];
+		int decimal_place_value = decimal_symbol[symbol_iter];
 	
 		//Decimal number values representing the four cases of values 
 		//within the current decimal place.  
-		int val9 = 9 * dplace;
-		int val5 = 5 * dplace;
-		int val4 = 4 * dplace;
-		int val1 = dplace;
+		int value_nine = 9 * decimal_place_value;
+		int value_five = 5 * decimal_place_value;
+		int value_four = 4 * decimal_place_value;
+		int value_one = decimal_place_value;
 	
 		//Roman numeral strings that correspond to the above decimal 
 		//values.  All are null-terimated c strings.  
-		char numstr9[] = {'\0', '\0', '\0'};
-		numstr9[0] = roman_symbol[symbol_iter];
-		numstr9[1] = roman_symbol[symbol_iter-2];
+		char numeral_str_nine[] = {'\0', '\0', '\0'};
+		numeral_str_nine[0] = roman_symbol[symbol_iter];
+		numeral_str_nine[1] = roman_symbol[symbol_iter-2];
 		
-		char numstr5[] = {'\0', '\0'};
-		numstr5[0] = roman_symbol[symbol_iter-1];
+		char numeral_str_five[] = {'\0', '\0'};
+		numeral_str_five[0] = roman_symbol[symbol_iter-1];
 		
-		char numstr4[] = {'\0', '\0', '\0'};
-		numstr4[0] = roman_symbol[symbol_iter];
-		numstr4[1] = roman_symbol[symbol_iter-1];
+		char numeral_str_four[] = {'\0', '\0', '\0'};
+		numeral_str_four[0] = roman_symbol[symbol_iter];
+		numeral_str_four[1] = roman_symbol[symbol_iter-1];
 		
-		char numstr1[] = {'\0', '\0'};
-		numstr1[0] = roman_symbol[symbol_iter];
+		char numeral_str_one[] = {'\0', '\0'};
+		numeral_str_one[0] = roman_symbol[symbol_iter];
 	
 		//Check for numeral string that represents the 9 value.   	
-		if(strstr(numeral_temp, numstr9)) {
+		if(strstr(numeral_temp, numeral_str_nine)) {
 	
 			//Check if the string is at beginning.  
-			if(strstr(numeral_temp, numstr9) == numeral_temp) {
+			if(strstr(numeral_temp, numeral_str_nine) == numeral_temp) {
 		
-				//Add the corresponding 9 value to the decimal.
-				decimal_temp += val9;
-		
-				//Cut off first two characters of numeral string.  
+				decimal_temp += value_nine;
+				
 				shift_string_left(numeral_temp, 2);
 			}
 			else {
+			
 				//Incorrectly formated Roman numeral, return. 
 				free(numeral_temp);
 				return 1;
@@ -288,30 +287,25 @@ int convert_roman_to_decimal(const char * numeral, int * decimal) {
 		}
 	
 		//Check for numeral for 5, not necessarily at the beginning.  
-		if(strstr(numeral_temp, numstr5)) {
+		if(strstr(numeral_temp, numeral_str_five)) {
 	
 			//Check for leading 5 numeral.  
-			if(strstr(numeral_temp, numstr5) == numeral_temp) {
+			if(strstr(numeral_temp, numeral_str_five) == numeral_temp) {
 		
-				//Add the corresponding 5 value to the decimal. 
-				decimal_temp += val5;
+				decimal_temp += value_five;
 		
-				//Cut off first character of numeral string.  
 				shift_string_left(numeral_temp, 1);
 			}
-			else if(strstr(numeral_temp, numstr4) == numeral_temp) {
+			else if(strstr(numeral_temp, numeral_str_four) == numeral_temp) {
 				//Check for leading numeral for 4 value.  
 			
-				//Add corresponding 4 value to the decimal.   
-				decimal_temp += val4;
+				decimal_temp += value_four;
 		
-				//Cut off first two characters of numeral string.  
 				shift_string_left(numeral_temp, 2);
 			
-				//With leading numeral for 4 value, there should be 
-				//no following numerals for the 1 value.  
-				if(strstr(numeral_temp,"numstr1")) {
-			
+				//With leading numerals for 4 value, there should be 
+				//no immediately following numeral for the 1 value.
+				if(strstr(numeral_temp, numeral_str_one) == numeral_temp) {			
 					//Incorrectly formated Roman numeral, return. 
 					free(numeral_temp);
 					return 1;
@@ -328,17 +322,16 @@ int convert_roman_to_decimal(const char * numeral, int * decimal) {
 		//If the string starts with numerals for the 1 value, here 
 		//should be 3 maximum.  
 		int count=0;
-		while(strstr(numeral_temp, numstr1) == numeral_temp) {
-	
-			//Add corresponding 1 value to the decimal. 
-			decimal_temp += val1;
-		
-			//Cut off first character of numeral string.  
-			shift_string_left(numeral_temp, 1);
+		while(strstr(numeral_temp, numeral_str_one) == numeral_temp) {
 		
 			count++;
+	
+			decimal_temp += value_one;
 		
-			//Check for more than 3 consecutive numerals for the 1 value.
+			shift_string_left(numeral_temp, 1);
+		
+			//Check for more than 3 consecutive numerals for the 
+			//1 value.
 			if(count > 3) {
 		
 				//Incorrectly formated Roman numeral, return. 

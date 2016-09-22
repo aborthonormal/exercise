@@ -256,6 +256,9 @@ START_TEST(convert_roman_to_decimal_test) {
 	failure_flag = convert_roman_to_decimal("IIII", &decimal);
 	ck_assert_int_eq(failure_flag, 1);
 	
+	failure_flag = convert_roman_to_decimal("IVI", &decimal);
+	ck_assert_int_eq(failure_flag, 1);
+	
 	failure_flag = convert_roman_to_decimal("absC", &decimal);
 	ck_assert_int_eq(failure_flag, 1);
 
@@ -283,11 +286,12 @@ START_TEST(double_conversion_test) {
 	
 		//Convert decimal to Roman numeral, check for failure.  
 		failure_flag = convert_decimal_to_roman(i, numeral);
-		ck_assert_int_eq(failure_flag, 0);
+		ck_assert_msg(failure_flag == 0, "Failed to convert %i to Roman numeral.", i);
 		
 		//Convert Roman numeral decimal, check for failure.  
 		failure_flag = convert_roman_to_decimal(numeral, &decimal);
-		ck_assert_int_eq(failure_flag, 0);
+		//ck_assert_int_eq(failure_flag, 0);
+		ck_assert_msg(failure_flag == 0, "Failed to convert %s (%i) to decimal number.", numeral, i);
 		
 		//The initial number 'i' should equal 'decimal'.
 		ck_assert_int_eq(decimal, i);
