@@ -243,31 +243,31 @@ START_TEST(convert_roman_to_decimal_test) {
 	ck_assert_int_eq(decimal, 3900);
 	
 	//Test if input Roman numeral string is valid.  
-	int flag = 0;
+	int failure_flag = 0;
 	
 	//Correct input
-	flag = convert_roman_to_decimal("MMMCM", &decimal);
-	ck_assert_int_eq(flag, 0);
+	failure_flag = convert_roman_to_decimal("MMMCM", &decimal);
+	ck_assert_int_eq(failure_flag, 0);
 	
 	//Incorrect input
-	flag = convert_roman_to_decimal("MMMIICM", &decimal);
-	ck_assert_int_eq(flag, 1);
+	failure_flag = convert_roman_to_decimal("MMMIICM", &decimal);
+	ck_assert_int_eq(failure_flag, 1);
 	
 	//Incorrect input
-	flag = convert_roman_to_decimal("IIII", &decimal);
-	ck_assert_int_eq(flag, 1);
+	failure_flag = convert_roman_to_decimal("IIII", &decimal);
+	ck_assert_int_eq(failure_flag, 1);
 	
 	//Incorrect input
-	flag = convert_roman_to_decimal("absC", &decimal);
-	ck_assert_int_eq(flag, 1);
+	failure_flag = convert_roman_to_decimal("absC", &decimal);
+	ck_assert_int_eq(failure_flag, 1);
 
 	//Incorrect input
-	flag = convert_roman_to_decimal(NULL, &decimal);
-	ck_assert_int_eq(flag, 1);
+	failure_flag = convert_roman_to_decimal(NULL, &decimal);
+	ck_assert_int_eq(failure_flag, 1);
 	
 	//Incorrect input
-	flag = convert_roman_to_decimal("IV", NULL);
-	ck_assert_int_eq(flag, 1);	
+	failure_flag = convert_roman_to_decimal("IV", NULL);
+	ck_assert_int_eq(failure_flag, 1);	
 }
 END_TEST
 
@@ -276,20 +276,24 @@ by converting all integers 1-3999 to Roman numerals, then back to
 decimal, and then comparing the results to the inputs. */
 START_TEST(double_conversion_test) {
 
-	//String used for Roman numeral.  
+	//Roman numeral and decimal variables used in double conversion.
 	char * numeral = allocate_roman_numeral_string();
-
-	//Integer used for result of convert_roman_to_decimal() conversion.  
 	int decimal;
+	
+	int failure_flag = 0;
 
 	//Check every integer from 1-3999.
-	for(int i=0; i <= MAX_DECIMAL; i++) {
+	for(int i=1; i <= MAX_DECIMAL; i++) {
 	
-		//Convert from decimal to Roman numeral and then back again. 
-		convert_decimal_to_roman(i, numeral);		
-		convert_roman_to_decimal(numeral, &decimal);
+		//Convert decimal to Roman numeral, check for failure.  
+		failure_flag = convert_decimal_to_roman(i, numeral);
+		ck_assert_int_eq(failure_flag, 0);
 		
-		//Two numbers should be equal.  
+		//Convert Roman numeral decimal, check for failure.  
+		failure_flag = convert_roman_to_decimal(numeral, &decimal);
+		ck_assert_int_eq(failure_flag, 0);
+		
+		//The initial number 'i' should equal 'decimal'.
 		ck_assert_int_eq(decimal, i);
 	}
 	
