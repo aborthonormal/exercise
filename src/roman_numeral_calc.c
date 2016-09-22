@@ -16,6 +16,11 @@ This file defines library functions that allow the user to add and subtract Roma
 
 #include "roman_numeral_calc.h"
 
+/* Static helper function used to shift a C string left, dropping off 
+the first character.  This does not change the allocation size of 
+the string. */
+static void shift_string_left(char * cstring, int shift);
+
 //Roman numeral symbols and associated decimal values.  These are 
 //used in the conversion between decimal numbers and Roman numerals.  
 static const char roman_symbol[] = {'M','D','C','L','X','V','I','\0'};
@@ -201,31 +206,6 @@ int convert_roman_to_decimal(const char * numeral, int * decimal) {
 			return 1;
 		}
 	}
-	 
-	//If the numeral string is preceeded by M's, these represent 
-	//values of 1000.  There should be 3 maximum.  
-	int count=0;
-	while(strchr(numeral_temp,'M') == numeral_temp) {
-	
-		//Add 1000 to decimal value.  
-		decimal_temp += 1000;
-		
-		//Shift the characters of the string so the first is 
-		//dropped off.  The null terminating character is copied 
-		//over as well, so the string's length is correctly 
-		//shortened.  
-		memmove(numeral_temp, numeral_temp+1, strlen(numeral_temp));
-		
-		count++;
-		
-		//Check for more than 3 M's in a row.    
-		if(count > 3) {
-		
-			//Incorrectly formated Roman numeral, return. 
-			free(numeral_temp);
-			return 1;
-		}
-	}
 	
 	/* Converting from Roman numerals to decimal numbers follows a 
 	similar approach as the reverse conversion that is described in 
@@ -235,6 +215,26 @@ int convert_roman_to_decimal(const char * numeral, int * decimal) {
 	they are removed from the front of the string and their equivalent 
 	value is added to the growing decimal value, stored in "decimal_temp".  
 	*/
+	
+	//If the numeral string is preceeded by M's, these represent 
+	//values of 1000.  There should be 3 maximum.  
+	int count=0;
+	while(strchr(numeral_temp,'M') == numeral_temp) {
+	
+		decimal_temp += 1000;
+		count++;
+		
+		//Cut off first character of numeral string.  
+		shift_string_left(numeral_temp, 1);
+		
+		//Check for more than 3 M's in a row.    
+		if(count > 3) {
+		
+			//Incorrectly formated Roman numeral, return. 
+			free(numeral_temp);
+			return 1;
+		}
+	}
 	
 	//For each decimal place from the 100's to the 1's, search for the 
 	//Roman numerals that represent the respective values of 9, 5, 4, 
@@ -277,9 +277,8 @@ int convert_roman_to_decimal(const char * numeral, int * decimal) {
 				//Add the corresponding 9 value to the decimal.
 				decimal_temp += val9;
 		
-				//Remove beginning two characters of string.  
-				memmove(numeral_temp, numeral_temp+1, strlen(numeral_temp));
-				memmove(numeral_temp, numeral_temp+1, strlen(numeral_temp));
+				//Cut off first two characters of numeral string.  
+				shift_string_left(numeral_temp, 2);
 			}
 			else {
 				//Incorrectly formated Roman numeral, return. 
@@ -297,11 +296,8 @@ int convert_roman_to_decimal(const char * numeral, int * decimal) {
 				//Add the corresponding 5 value to the decimal. 
 				decimal_temp += val5;
 		
-				//Shift the characters of the string so the first is 
-				//dropped off.  The null terminating character is 
-				//copied over as well, so the string's length is 
-				//correctly shortened.  
-				memmove(numeral_temp, numeral_temp+1, strlen(numeral_temp));
+				//Cut off first character of numeral string.  
+				shift_string_left(numeral_temp, 1);
 			}
 			else if(strstr(numeral_temp, numstr4) == numeral_temp) {
 				//Check for leading numeral for 4 value.  
@@ -309,15 +305,11 @@ int convert_roman_to_decimal(const char * numeral, int * decimal) {
 				//Add corresponding 4 value to the decimal.   
 				decimal_temp += val4;
 		
-				//Shift the characters of the string so the first two 
-				//are dropped off.  The null terminating character is 
-				//copied twice over as well, so the string's length is 
-				//correctly shortened.  
-				memmove(numeral_temp, numeral_temp+1, strlen(numeral_temp));
-				memmove(numeral_temp, numeral_temp+1, strlen(numeral_temp));
+				//Cut off first two characters of numeral string.  
+				shift_string_left(numeral_temp, 2);
 			
-				//With leading numeral for 4 value, there should be no 
-				//following numerals for the 1 value.  
+				//With leading numeral for 4 value, there should be 
+				//no following numerals for the 1 value.  
 				if(strstr(numeral_temp,"numstr1")) {
 			
 					//Incorrectly formated Roman numeral, return. 
@@ -341,11 +333,8 @@ int convert_roman_to_decimal(const char * numeral, int * decimal) {
 			//Add corresponding 1 value to the decimal. 
 			decimal_temp += val1;
 		
-			//Shift the characters of the string so the first is 
-			//dropped off.  The null terminating character is copied 
-			//over as well, so the string's length is correctly 
-			//shortened.  
-			memmove(numeral_temp, numeral_temp+1, strlen(numeral_temp));
+			//Cut off first character of numeral string.  
+			shift_string_left(numeral_temp, 1);
 		
 			count++;
 		
@@ -463,4 +452,16 @@ char * allocate_roman_numeral_string() {
 
 	return temp_string;
 }
+
+/* Static helper function used to shift a C string left, dropping off 
+the first character.  This does not change the allocation size of 
+the string. */
+static void shift_string_left(char * cstring, int shift) {
+
+	//Shift one place at a time to maintain null terminator.  
+	for(int i=0; i<shift; i++) {
+		memmove(cstring, cstring+1, strlen(cstring));
+	}
+}
+
 
