@@ -306,24 +306,18 @@ testing of the conversion functions allows us to conduct this test
 with confidence.  */
 START_TEST(roman_addition_test) {
 
-	//Strings used for additions
-	//First Roman numeral
+	//Strings used for Roman numeral addition
 	char * numeral_a = allocate_roman_numeral_string();
-	
-	//Second Roman numeral
 	char * numeral_b = allocate_roman_numeral_string();
-	
-	//Roman numeral sum
 	char * numeral_sum = allocate_roman_numeral_string();
 	
-	//Integers for addition operands.  
-	int a, b;
-
-	//Integer used to store decimal conversion of sum.  
-	int decimal;
+	//Integers for decimal addition
+	int decimal_a;
+	int decimal_b;
+	int decimal_sum;
 	
 	//Flag to check for failure condition from roman_addition()
-	int flag = 0;
+	int failure_flag = 0;
 	
 	//Set seed for random number generator.  
 	srand(time(NULL));
@@ -334,22 +328,20 @@ START_TEST(roman_addition_test) {
 	for(int i=0; i<10000; i++) {
 
 		//Sum a+b is between 1-3999
-		a = (rand() % (MAX_DECIMAL-1)) + 1;
-		b = (rand() % (MAX_DECIMAL-a)) + 1;
-
-		//Convert operands to Roman numerals.  
-		convert_decimal_to_roman(a, numeral_a);
-		convert_decimal_to_roman(b, numeral_b);
+		decimal_a = (rand() % (MAX_DECIMAL-1)) + 1;
+		decimal_b = (rand() % (MAX_DECIMAL-decimal_a)) + 1;
+		
+		convert_decimal_to_roman(decimal_a, numeral_a);
+		convert_decimal_to_roman(decimal_b, numeral_b);
 	
 		//Add Roman numerals, check flag for failure.  
-		flag = roman_addition(numeral_a, numeral_b, numeral_sum);
-		ck_assert_int_eq(flag, 0);
+		failure_flag = roman_addition(numeral_a, numeral_b, numeral_sum);
+		ck_assert_int_eq(failure_flag, 0);
 	
-		//Convert Roman numeral sum to decimal.  
-		convert_roman_to_decimal(numeral_sum, &decimal);
+		convert_roman_to_decimal(numeral_sum, &decimal_sum);
 
 		//Compare the result to the inputs.  
-		ck_assert_int_eq(decimal, (a+b));
+		ck_assert_int_eq(decimal_sum, (decimal_a + decimal_b));
 	}
 }
 END_TEST
@@ -362,24 +354,18 @@ Thorough testing of the conversion functions allows us to conduct this
 test with confidence.  */
 START_TEST(roman_subtraction_test) {
 
-	//Strings used for subtractions
-	//First Roman numeral
+	//Strings used for Roman numeral subtraction
 	char * numeral_a = allocate_roman_numeral_string();
-	
-	//Second Roman numeral
 	char * numeral_b = allocate_roman_numeral_string();
-	
-	//Roman numeral difference
 	char * numeral_diff = allocate_roman_numeral_string();
 
-	//Integers for subtraction operands
-	int a, b;
-
-	//Integer used to store decimal conversion of difference
-	int decimal;
+	//Integers for decimal subtraction
+	int decimal_a;
+	int decimal_b;
+	int decimal_sum;
 	
 	//Flag to check for failure condition from roman_subtraction()
-	int flag = 0;
+	int failure_flag = 0;
 	
 	//Set seed for random number generator.  
 	srand(time(NULL));
@@ -389,22 +375,20 @@ START_TEST(roman_subtraction_test) {
 	for(int i=0; i<10000; i++) {
 
 		//Difference a-b is between 1-3998		
-		a = (rand() % (MAX_DECIMAL-1)) + 2; //2 to 3999
-		b = (rand() % (a-1)) + 1; //1 to (a-1)
+		decimal_a = (rand() % (MAX_DECIMAL-1)) + 2; //2 to 3999
+		decimal_b = (rand() % (decimal_a-1)) + 1; //1 to (a-1)
 
-		//Convert operands to Roman numerals.  
-		convert_decimal_to_roman(a, numeral_a);
-		convert_decimal_to_roman(b, numeral_b);
+		convert_decimal_to_roman(decimal_a, numeral_a);
+		convert_decimal_to_roman(decimal_b, numeral_b);
 	
 		//Subtract Roman numerals, check flag for failure.  
-		flag = roman_subtraction(numeral_a, numeral_b, numeral_diff);
-		ck_assert_int_eq(flag, 0);
+		failure_flag = roman_subtraction(numeral_a, numeral_b, numeral_diff);
+		ck_assert_int_eq(failure_flag, 0);
 	
-		//Convert Roman numeral difference to decimal.  
-		convert_roman_to_decimal(numeral_diff, &decimal);
+		convert_roman_to_decimal(numeral_diff, &decimal_sum);
 
 		//Compare the result to the inputs.  
-		ck_assert_int_eq(decimal, (a-b));
+		ck_assert_int_eq(decimal_sum, (decimal_a - decimal_b));
 	}
 }
 END_TEST
