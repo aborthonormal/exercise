@@ -65,8 +65,7 @@ int convert_decimal_to_roman(const int decimal, char * numeral) {
 	The rules for converting decimal numbers to Roman numerals can be 
 	applied systematically to each decimal place, so long as these 
 	four regions are processed accordingly for the respective Roman 
-	numeral values.  
-	*/
+	numeral values. */
 
 	//As the largest decimal number allowed is 3999, only the lowest 
 	//region of the 1000's place is checked.  This is a special case.
@@ -159,11 +158,11 @@ int convert_decimal_to_roman(const int decimal, char * numeral) {
 	//and converted to Roman numerals.  If not, something went 
 	//wrong.  
 	if(decimal_temp != 0) {
+	
 		//Failed, return.  
 		return 1;
 	}
 
-	//Free buffer memory
 	free(buffer);
 
 	//Successful conversion, return success flag value.  
@@ -210,12 +209,12 @@ int convert_roman_to_decimal(const char * numeral, int * decimal) {
 	
 	/* Converting from Roman numerals to decimal numbers follows a 
 	similar approach as the reverse conversion that is described in 
-	"convert_decimal_to_roman()" above.  Within each decimal place, strings 
-	representing 9, 5, 4, and 1 are searched for within "numeral_temp".  As 
-	they are identified in leading positions in the numeral string, 
-	they are removed from the front of the string and their equivalent 
-	value is added to the growing decimal value, stored in "decimal_temp".  
-	*/
+	"convert_decimal_to_roman()" above.  Within each decimal place,
+	strings representing 9, 5, 4, and 1 are searched for within 
+	"numeral_temp".  As they are identified in leading positions in 
+	the numeral string, they are removed from the front of the 
+	string and their equivalent value is added to the growing 
+	decimal value, stored in "decimal_temp".  */
 	
 	//If the numeral string is preceeded by M's, these represent 
 	//values of 1000.  There should be 3 maximum.  
@@ -253,7 +252,8 @@ int convert_roman_to_decimal(const char * numeral, int * decimal) {
 		int value_one = decimal_place_value;
 	
 		//Roman numeral strings that correspond to the above decimal 
-		//values.  All are null-terimated c strings.  
+		//values.  All are null-terimated c strings.  Memory 
+		//allocated on stack, not heap, to reduce complexity.  
 		char numeral_str_nine[] = {'\0', '\0', '\0'};
 		numeral_str_nine[0] = roman_symbol[symbol_iter];
 		numeral_str_nine[1] = roman_symbol[symbol_iter-2];
@@ -291,13 +291,14 @@ int convert_roman_to_decimal(const char * numeral, int * decimal) {
 	
 			//Check for leading 5 numeral.  
 			if(strstr(numeral_temp, numeral_str_five) == numeral_temp) {
-		
+			
 				decimal_temp += value_five;
 		
 				shift_string_left(numeral_temp, 1);
 			}
+			//Check for leading numeral for 4 value.
 			else if(strstr(numeral_temp, numeral_str_four) == numeral_temp) {
-				//Check for leading numeral for 4 value.  
+				  
 			
 				decimal_temp += value_four;
 		
@@ -341,7 +342,6 @@ int convert_roman_to_decimal(const char * numeral, int * decimal) {
 		}
 	}
 	
-	//Free the temporary Roman numeral string.
 	free(numeral_temp);
 
 	//Store the final converted decimal number.  
@@ -353,9 +353,8 @@ int convert_roman_to_decimal(const char * numeral, int * decimal) {
 /* Add two Roman numerals.  See header file for full description. */
 int roman_addition(const char * numeral_a, const char * numeral_b, char * numeral_sum) {
 
-	//Check for null strings
 	if(numeral_a == NULL || numeral_b == NULL || numeral_sum == NULL) {
-		//Addition failed.
+		//Addition failed, due to invalid input.  
 		return 1;
 	}
 	
@@ -364,28 +363,23 @@ int roman_addition(const char * numeral_a, const char * numeral_b, char * numera
 	int decimal_b;
 	int decimal_sum;
 	
-	//Convert the operands to decimal, checking for flags from 
-	//conversion functions.  
 	if(convert_roman_to_decimal(numeral_a, &decimal_a) || convert_roman_to_decimal(numeral_b, &decimal_b)) {
 	
-		//Addition failed.
+		//Addition failed, due to conversion failure.  
 		return 1;
 	}
 	
-	//Add the decimal values.
 	decimal_sum = decimal_a + decimal_b;
 	
-	//Check if sum is within maximum value supported.  
 	if(decimal_sum > MAX_DECIMAL) {
 	
-		//Addition failed.
+		//Addition failed, due to invalid sum.  
 		return 1;
 	}
 	
-	//Convert decimal sum to Roman numeral sum, check for flag. 
 	if(convert_decimal_to_roman(decimal_sum, numeral_sum)) {
 	
-		//Addition failed.
+		//Addition failed, due to conversion failure.  
 		return 1;
 	}
 
@@ -395,9 +389,8 @@ int roman_addition(const char * numeral_a, const char * numeral_b, char * numera
 /* Subtract two Roman numerals.  See header file for full description. */
 int roman_subtraction(const char * numeral_a, const char * numeral_b, char * numeral_diff) {
 
-	//Check for null string pointers.  
 	if(numeral_a == NULL || numeral_b == NULL || numeral_diff == NULL) {
-		//Subtraction failed.
+		//Subtraction failed, due to invalid input.  
 		return 1;
 	}
 	
@@ -406,29 +399,23 @@ int roman_subtraction(const char * numeral_a, const char * numeral_b, char * num
 	int decimal_b;
 	int decimal_diff;
 	
-	//Convert the operands to decimal, checking for flags from 
-	//conversion functions.  
 	if(convert_roman_to_decimal(numeral_a, &decimal_a) || convert_roman_to_decimal(numeral_b, &decimal_b)) {
 	
-		//Subtraction failed.
+		//Subtraction failed, due to conversion failure.  
 		return 1;
 	}
 	
-	//Subtract the decimal values.
 	decimal_diff = decimal_a - decimal_b;
 	
-	//Check if difference is a valid decimal number.    
 	if(decimal_diff < 1) {
 	
-		//Subtraction failed.
+		//Subtraction failed, due to invalid result.  
 		return 1;
 	}
 	
-	//Convert decimal difference to Roman numeral difference, check 
-	//for flag. 
 	if(convert_decimal_to_roman(decimal_diff, numeral_diff)) {
 	
-		//Subtraction failed.
+		//Subtraction failed, due to conversion failure.  
 		return 1;
 	}
 
